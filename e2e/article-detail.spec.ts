@@ -78,7 +78,10 @@ test.describe("Article detail page", () => {
 
     const jsonLd = JSON.parse(jsonLdText!);
     expect(jsonLd.headline).toBe(article.title);
-    expect(jsonLd.datePublished).toBe(article.publishedAt);
+    // Sanity's `datetime` field always stores a full ISO 8601 timestamp, not
+    // the bare "YYYY-MM-DD" the local ARTICLES constant uses — both refer to
+    // the same date; compare via Date equality rather than string equality.
+    expect(new Date(jsonLd.datePublished).getTime()).toBe(new Date(article.publishedAt).getTime());
     expect(jsonLd.author).toEqual({ "@type": "Organization", name: "INAYAZ Group" });
     expect(jsonLd).not.toHaveProperty("dateModified");
     expect(jsonLd).not.toHaveProperty("wordCount");

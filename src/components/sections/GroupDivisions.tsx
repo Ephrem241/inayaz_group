@@ -1,11 +1,14 @@
 import { MotionSection } from "@/components/motion/MotionSection";
 import { DivisionDetail } from "@/components/divisions/DivisionDetail";
-import { DIVISIONS } from "@/constants/divisions";
-import { PROJECTS } from "@/constants/projects";
+import type { Division } from "@/constants/divisions";
+import type { Project } from "@/constants/projects";
 
-const featuredProjects = PROJECTS.filter((project) => project.featured);
+type GroupDivisionsProps = {
+  divisions: Division[];
+  featuredProjects: Project[];
+};
 
-export function GroupDivisions() {
+export function GroupDivisions({ divisions, featuredProjects }: GroupDivisionsProps) {
   return (
     <section className="section-light py-16 md:py-24 lg:py-32">
       <div className="container-content">
@@ -17,7 +20,7 @@ export function GroupDivisions() {
         </MotionSection>
 
         <div className="mt-12 lg:mt-16">
-          {DIVISIONS.map((division, index) => (
+          {divisions.map((division, index) => (
             <MotionSection key={division.id} delay={index * 0.05}>
               <DivisionDetail
                 division={division}

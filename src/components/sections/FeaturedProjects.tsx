@@ -1,13 +1,17 @@
 import { MotionSection } from "@/components/motion/MotionSection";
 import { ProjectShowcase } from "@/components/projects/ProjectShowcase";
 import { ProjectCard } from "@/components/projects/ProjectCard";
-import { PROJECTS, LEVEL_LEGEND } from "@/constants/projects";
+import { LEVEL_LEGEND, type Project } from "@/constants/projects";
 
 const FEATURED_TONES: Array<"dark" | "light"> = ["dark", "light", "dark"];
 
-export function FeaturedProjects() {
-  const featured = PROJECTS.filter((project) => project.featured);
-  const secondary = PROJECTS.filter((project) => !project.featured);
+type FeaturedProjectsProps = {
+  projects: Project[];
+};
+
+export function FeaturedProjects({ projects }: FeaturedProjectsProps) {
+  const featured = projects.filter((project) => project.featured);
+  const secondary = projects.filter((project) => !project.featured);
 
   return (
     <>

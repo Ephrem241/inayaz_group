@@ -1,13 +1,17 @@
 import { MotionSection } from "@/components/motion/MotionSection";
 import { ServiceImageSwitcher } from "@/components/services/ServiceImageSwitcher";
-import { SERVICES } from "@/constants/services";
+import type { Service } from "@/constants/services";
 
-export function ServicesShowcase() {
+type ServicesShowcaseProps = {
+  services: Service[];
+};
+
+export function ServicesShowcase({ services: serviceList }: ServicesShowcaseProps) {
   // Icons must be rendered here, server-side, before crossing into the client
   // ServiceImageSwitcher — passing a raw component reference (LucideIcon) as a
   // prop value is not serializable across the server/client boundary, unlike
   // rendering an icon directly into server-owned JSX.
-  const services = SERVICES.map((service) => ({
+  const services = serviceList.map((service) => ({
     ...service,
     icon: <service.icon className="h-5 w-5 shrink-0 text-construction-gold" aria-hidden="true" />,
   }));

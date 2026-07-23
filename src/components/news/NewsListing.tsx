@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { MotionSection } from "@/components/motion/MotionSection";
 import { ArticleCard } from "@/components/news/ArticleCard";
-import { ARTICLES } from "@/constants/articles";
+import type { Article } from "@/constants/articles";
 
 function formatPublishedDate(isoDate: string) {
   return new Intl.DateTimeFormat("en-US", {
@@ -12,9 +12,13 @@ function formatPublishedDate(isoDate: string) {
   }).format(new Date(isoDate));
 }
 
-export function NewsListing() {
-  const featured = ARTICLES.filter((article) => article.featured);
-  const rest = ARTICLES.filter((article) => !article.featured);
+type NewsListingProps = {
+  articles: Article[];
+};
+
+export function NewsListing({ articles }: NewsListingProps) {
+  const featured = articles.filter((article) => article.featured);
+  const rest = articles.filter((article) => !article.featured);
 
   return (
     <section className="section-light py-16 md:py-24 lg:py-32">

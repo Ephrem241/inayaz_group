@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
-import { PROJECTS } from "@/constants/projects";
-import { ARTICLES } from "@/constants/articles";
 import { SITE_URL } from "@/constants/site";
+import { getArticles, getProjects } from "../../sanity/lib/queries";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [projects, articles] = await Promise.all([getProjects(), getArticles()]);
+
   return [
     {
       url: SITE_URL,
@@ -41,13 +42,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
-    ...PROJECTS.map((project) => ({
+    ...projects.map((project) => ({
       url: `${SITE_URL}/projects/${project.slug}`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.6,
     })),
-    ...ARTICLES.map((article) => ({
+    ...articles.map((article) => ({
       url: `${SITE_URL}/news/${article.slug}`,
       lastModified: new Date(article.publishedAt),
       changeFrequency: "monthly" as const,

@@ -1,16 +1,13 @@
 import { MotionSection } from "@/components/motion/MotionSection";
 import { ProjectCard } from "@/components/projects/ProjectCard";
-import { getProjectBySlug, getRelatedProjects } from "@/constants/projects";
+import type { Project } from "@/constants/projects";
 
 type ProjectRelatedProps = {
-  currentSlug: string;
+  relatedProjects: Project[];
 };
 
-export function ProjectRelated({ currentSlug }: ProjectRelatedProps) {
-  const current = getProjectBySlug(currentSlug);
-  if (!current) return null;
-
-  const relatedProjects = getRelatedProjects(current);
+export function ProjectRelated({ relatedProjects }: ProjectRelatedProps) {
+  if (relatedProjects.length === 0) return null;
 
   return (
     <section className="section-light py-16 md:py-24 lg:py-32">

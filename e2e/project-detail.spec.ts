@@ -98,10 +98,13 @@ test.describe("Project detail page", () => {
     const gallery = page.locator("[data-project-gallery]");
     await gallery.scrollIntoViewIfNeeded();
 
-    await expect(gallery.locator("img")).toHaveCount(1);
-    await expect(gallery.locator("img")).toHaveAttribute(
-      "src",
-      /placeholder-project-ameliyaz/,
+    const image = gallery.locator("img");
+    await expect(image).toHaveCount(1);
+    // Content is served from Sanity's image CDN now, not a local filename —
+    // alt text is the content-identity check that survives the swap.
+    await expect(image).toHaveAttribute(
+      "alt",
+      "Silhouette of a tower crane and an in-progress high-rise structure at sunset",
     );
   });
 

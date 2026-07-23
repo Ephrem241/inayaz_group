@@ -1,13 +1,17 @@
 import { MotionSection } from "@/components/motion/MotionSection";
 import { ServiceImageSwitcher } from "@/components/services/ServiceImageSwitcher";
-import { DIVISIONS } from "@/constants/divisions";
+import type { Division } from "@/constants/divisions";
 
-export function BusinessDivisions() {
+type BusinessDivisionsProps = {
+  divisions: Division[];
+};
+
+export function BusinessDivisions({ divisions: divisionList }: BusinessDivisionsProps) {
   // Icons must be rendered here, server-side, before crossing into the client
   // ServiceImageSwitcher — passing a raw component reference (LucideIcon) as a
   // prop value is not serializable across the server/client boundary, unlike
   // rendering an icon directly into server-owned JSX.
-  const divisions = DIVISIONS.map((division) => ({
+  const divisions = divisionList.map((division) => ({
     ...division,
     icon: <division.icon className="h-5 w-5 shrink-0 text-construction-gold" aria-hidden="true" />,
   }));

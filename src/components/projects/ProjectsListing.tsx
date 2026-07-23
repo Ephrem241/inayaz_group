@@ -1,31 +1,39 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { PROJECTS, LEVEL_LEGEND, type Project } from "@/constants/projects";
+import { LEVEL_LEGEND, type Project } from "@/constants/projects";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 
 const PROPERTY_TYPES: Project["propertyType"][] = ["Residential", "Commercial", "Mixed-Use"];
-
-const LOCATIONS = Array.from(
-  new Set(
-    PROJECTS.map((project) => project.location).filter(
-      (location): location is string => location !== null,
-    ),
-  ),
-);
 
 type SortOrder = "featured" | "az";
 
 const selectClassName =
   "w-full rounded border border-steel-gray/30 bg-off-white px-3 py-2 text-sm md:w-56";
 
-export function ProjectsListing() {
+type ProjectsListingProps = {
+  projects: Project[];
+};
+
+export function ProjectsListing({ projects }: ProjectsListingProps) {
   const [propertyTypeFilter, setPropertyTypeFilter] = useState("");
   const [locationFilter, setLocationFilter] = useState("");
   const [sortOrder, setSortOrder] = useState<SortOrder>("featured");
 
+  const locations = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          projects.map((project) => project.location).filter(
+            (location): location is string => location !== null,
+          ),
+        ),
+      ),
+    [projects],
+  );
+
   const visibleProjects = useMemo(() => {
-    const filtered = PROJECTS.filter((project) => {
+    const filtered = projects.filter((project) => {
       if (propertyTypeFilter && project.propertyType !== propertyTypeFilter) return false;
       if (locationFilter && project.location !== locationFilter) return false;
       return true;
@@ -35,7 +43,7 @@ export function ProjectsListing() {
       return [...filtered].sort((a, b) => a.name.localeCompare(b.name));
     }
     return [...filtered].sort((a, b) => Number(b.featured) - Number(a.featured));
-  }, [propertyTypeFilter, locationFilter, sortOrder]);
+  }, [projects, propertyTypeFilter, locationFilter, sortOrder]);
 
   const resetFilters = () => {
     setPropertyTypeFilter("");
@@ -74,7 +82,7 @@ export function ProjectsListing() {
                 onChange={(event) => setLocationFilter(event.target.value)}
               >
                 <option value="">All Locations</option>
-                {LOCATIONS.map((location) => (
+                {locations.map((location) => (
                   <option key={location} value={location}>
                     {location}
                   </option>

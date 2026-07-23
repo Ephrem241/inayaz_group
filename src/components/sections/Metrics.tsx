@@ -1,8 +1,12 @@
 import { MotionSection } from "@/components/motion/MotionSection";
 import { AnimatedMetric } from "@/components/metrics/AnimatedMetric";
-import { METRICS } from "@/constants/metrics";
+import type { Metric } from "@/constants/metrics";
 
-export function Metrics() {
+type MetricsProps = {
+  metrics: Metric[];
+};
+
+export function Metrics({ metrics }: MetricsProps) {
   return (
     <section className="bg-dark-secondary py-16 text-off-white md:py-24 lg:py-32">
       <div className="container-wide">
@@ -14,7 +18,7 @@ export function Metrics() {
         </MotionSection>
 
         <div className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 lg:mt-16 lg:grid-cols-6">
-          {METRICS.map((metric, index) => (
+          {metrics.map((metric, index) => (
             <MotionSection key={metric.id} delay={index * 0.05}>
               {metric.status === "confirmed" ? (
                 <AnimatedMetric

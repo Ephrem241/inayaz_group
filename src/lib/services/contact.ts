@@ -2,6 +2,8 @@
 
 import { headers } from "next/headers";
 import { contactFormSchema } from "@/lib/validations/contact";
+import { serverClient } from "../../../sanity/lib/client";
+import { sendContactEmails } from "./email";
 
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const RATE_LIMIT_MAX = 5;
@@ -61,13 +63,7 @@ export async function submitContactForm(
     attempts.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
   }
 
-  // TODO (Phase 5 / Step 25, Phase 8 / Step 31): persist this submission as a
-  // `contactSubmission` Sanity document (server-side write token) and send
-  // notification/confirmation emails via Resend. Neither integration exists
-  // yet in this codebase, so the submission is logged only, for now.
-  const { fullName, companyName, email, phone, serviceInterest, projectType, estimatedBudget, projectLocation, message } =
-    parsed.data;
-  console.info("[contact] submission received:", {
+  const {
     fullName,
     companyName,
     email,
@@ -76,6 +72,45 @@ export async function submitContactForm(
     projectType,
     estimatedBudget,
     projectLocation,
+    message,
+    consent,
+  } = parsed.data;
+
+  try {
+    await serverClient.create({
+      _type: "contactSubmission",
+      fullName,
+      companyName,
+      email,
+      phone,
+      serviceInterest,
+      projectType,
+      estimatedBudget,
+      projectLocation,
+      message,
+      consent,
+      status: "New",
+      submittedAt: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error("[contact] failed to save submission:", error);
+    return {
+      status: "error",
+      message: "Something went wrong submitting your message. Please try again or email us directly.",
+    };
+  }
+
+  // Best-effort — a failure here never blocks the success response since the
+  // submission is already durably saved in Sanity above.
+  await sendContactEmails({
+    fullName,
+    companyName: companyName || undefined,
+    email,
+    phone: phone || undefined,
+    serviceInterest: serviceInterest || undefined,
+    projectType: projectType || undefined,
+    estimatedBudget: estimatedBudget || undefined,
+    projectLocation: projectLocation || undefined,
     message,
   });
 
