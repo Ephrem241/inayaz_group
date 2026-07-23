@@ -1,4 +1,12 @@
 import { defineConfig, devices } from "@playwright/test";
+import { loadEnvConfig } from "@next/env";
+
+// Playwright's own Node process doesn't load .env.local the way Next's
+// dev/build/start commands do — without this, test files that import
+// constants derived from process.env (e.g. SITE_URL) see different values
+// than the actual built app, which does load it. Using Next's own loader
+// (already a transitive dependency of `next`) keeps the two in sync exactly.
+loadEnvConfig(process.cwd());
 
 export default defineConfig({
   testDir: "./e2e",

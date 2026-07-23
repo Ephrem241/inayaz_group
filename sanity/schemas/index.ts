@@ -1,6 +1,20 @@
 import type { SchemaTypeDefinition } from "sanity";
+import { imageWithAlt } from "./objects/imageWithAlt";
+import { project } from "./documents/project";
+import { division } from "./documents/division";
+import { service } from "./documents/service";
+import { article } from "./documents/article";
+import { siteSettings } from "./documents/siteSettings";
+import { contactSubmission } from "./documents/contactSubmission";
 
-// Document schemas (project, division, service, article, siteSettings,
-// contactSubmission) are Phase 5 Step 23 — deliberately not built yet in
-// Step 22, which only configures the Sanity project/Studio connection.
-export const schemaTypes: SchemaTypeDefinition[] = [];
+export const schemaTypes: SchemaTypeDefinition[] = [
+  // Objects
+  imageWithAlt,
+  // Documents
+  project,
+  division,
+  service,
+  article,
+  siteSettings,
+  contactSubmission,
+];
