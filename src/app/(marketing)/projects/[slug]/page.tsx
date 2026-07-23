@@ -44,8 +44,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const project = adaptProject(sanityProject);
 
   return {
-    title: `${project.name} | INAYAZ Group`,
+    title: project.name,
     description: project.description,
+    alternates: { canonical: `/projects/${project.slug}` },
+    openGraph: {
+      type: "website",
+      title: `${project.name} | INAYAZ Group`,
+      description: project.description,
+      url: `/projects/${project.slug}`,
+      images: [{ url: project.image.src, alt: project.image.alt }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.name} | INAYAZ Group`,
+      description: project.description,
+      images: [project.image.src],
+    },
   };
 }
 

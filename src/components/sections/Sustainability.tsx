@@ -3,7 +3,16 @@ import { MotionSection } from "@/components/motion/MotionSection";
 import { MaskRevealImage } from "@/components/motion/MaskRevealImage";
 import { SUSTAINABILITY_TOPICS } from "@/constants/sustainability";
 
-export function Sustainability() {
+type SustainabilityProps = {
+  // "h2" when embedded on the homepage (which already has its own h1 in the
+  // hero); the dedicated /sustainability page passes "h1" since this is the
+  // only heading on that page — every page needs exactly one h1.
+  headingLevel?: "h1" | "h2";
+};
+
+export function Sustainability({ headingLevel = "h2" }: SustainabilityProps = {}) {
+  const Heading = headingLevel;
+
   return (
     <section
       data-sustainability-section
@@ -16,7 +25,7 @@ export function Sustainability() {
               <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
                 Sustainability
               </p>
-              <h2 className="mt-4 text-4xl md:text-5xl">Built to Last, Built Responsibly</h2>
+              <Heading className="mt-4 text-4xl md:text-5xl">Built to Last, Built Responsibly</Heading>
             </MotionSection>
 
             <MotionSection y={16} delay={0.1} className="mt-12 lg:mt-16">

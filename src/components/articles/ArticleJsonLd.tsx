@@ -7,6 +7,13 @@ type ArticleJsonLdProps = {
 
 export function ArticleJsonLd({ article }: ArticleJsonLdProps) {
   const url = `${SITE_URL}/news/${article.slug}`;
+  // Sanity-sourced cover images are already full CDN URLs; only local
+  // constant-authored fallbacks (e.g. "/images/...") need SITE_URL prefixed.
+  const imageUrl = article.coverImage
+    ? article.coverImage.src.startsWith("http")
+      ? article.coverImage.src
+      : `${SITE_URL}${article.coverImage.src}`
+    : undefined;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -17,7 +24,7 @@ export function ArticleJsonLd({ article }: ArticleJsonLdProps) {
     author: { "@type": "Organization", name: "INAYAZ Group" },
     publisher: { "@type": "Organization", name: "INAYAZ Group" },
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
-    ...(article.coverImage ? { image: `${SITE_URL}${article.coverImage.src}` } : {}),
+    ...(imageUrl ? { image: imageUrl } : {}),
   };
 
   return (
@@ -25,6 +32,7 @@ export function ArticleJsonLd({ article }: ArticleJsonLdProps) {
     // input, so injecting it directly here carries no XSS risk.
     <script
       type="application/ld+json"
+      data-json-ld="article"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
     />
   );

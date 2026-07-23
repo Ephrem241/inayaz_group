@@ -7,9 +7,10 @@ import { getArticles } from "../../../../sanity/lib/queries";
 import { adaptArticle } from "../../../../sanity/lib/adapters";
 
 export const metadata: Metadata = {
-  title: "News & Insights | INAYAZ Group",
+  title: "News & Insights",
   description:
     "Updates and insights from INAYAZ Group on responsible construction, project execution, and building Ethiopia's future as a Category 1 General Contractor.",
+  alternates: { canonical: "/news" },
 };
 
 export default async function NewsPage() {

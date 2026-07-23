@@ -1,5 +1,6 @@
 import { MotionSection } from "@/components/motion/MotionSection";
 import { MaskRevealImage } from "@/components/motion/MaskRevealImage";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import type { Article } from "@/constants/articles";
 
 type ArticleHeroProps = {
@@ -19,7 +20,15 @@ export function ArticleHero({ article }: ArticleHeroProps) {
   return (
     <section data-article-hero-section className="section-light py-16 md:py-24 lg:py-32">
       <div className="container-content">
-        <MotionSection>
+        <Breadcrumbs
+          items={[
+            { label: "Home", href: "/" },
+            { label: "News", href: "/news" },
+            { label: article.title },
+          ]}
+        />
+
+        <MotionSection className="mt-6">
           <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
             {article.category ?? "News & Insights"}
           </p>

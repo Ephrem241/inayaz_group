@@ -1,6 +1,14 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Contact", () => {
+  test("/contact loads for real with a 200 status and correct title", async ({ page }) => {
+    const response = await page.goto("/contact");
+    expect(response?.status()).toBe(200);
+    await expect(page.getByText("Page Not Found")).toHaveCount(0);
+    await expect(page).toHaveTitle("Contact | INAYAZ Group");
+    await expect(page.locator("[data-contact-section]")).toBeVisible();
+  });
+
   test("all fields render with correct types and the submit button is present", async ({
     page,
   }) => {

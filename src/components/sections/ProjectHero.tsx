@@ -1,5 +1,6 @@
 import { MotionSection } from "@/components/motion/MotionSection";
 import { MaskRevealImage } from "@/components/motion/MaskRevealImage";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { CONTRACTOR, type Project } from "@/constants/projects";
 
 type ProjectHeroProps = {
@@ -10,7 +11,15 @@ export function ProjectHero({ project }: ProjectHeroProps) {
   return (
     <section data-project-detail-section className="section-light py-16 md:py-24 lg:py-32">
       <div className="container-content">
-        <MotionSection>
+        <Breadcrumbs
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Projects", href: "/projects" },
+            { label: project.name },
+          ]}
+        />
+
+        <MotionSection className="mt-6">
           <MaskRevealImage
             src={project.image.src}
             alt={project.image.alt}

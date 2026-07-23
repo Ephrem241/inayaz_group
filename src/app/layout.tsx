@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
+import { DEFAULT_OG_IMAGE, SITE_URL } from "@/constants/site";
 
 const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
@@ -14,10 +15,29 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
+const SITE_NAME = "INAYAZ Group";
+const SITE_DESCRIPTION =
+  "A diversified Ethiopian business group delivering construction, real estate, manufacturing, import, export, travel, and equipment solutions with precision, integrity, and long-term responsibility.";
+
 export const metadata: Metadata = {
-  title: "INAYAZ Group",
-  description:
-    "A diversified Ethiopian business group delivering construction, real estate, manufacturing, import, export, travel, and equipment solutions with precision, integrity, and long-term responsibility.",
+  metadataBase: new URL(SITE_URL),
+  title: { default: SITE_NAME, template: `%s | ${SITE_NAME}` },
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    url: "/",
+    locale: "en_US",
+    images: [{ url: DEFAULT_OG_IMAGE, width: 1600, height: 900, alt: SITE_NAME }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE],
+  },
 };
 
 // Deliberately bare — the marketing chrome (header, footer, skip link,

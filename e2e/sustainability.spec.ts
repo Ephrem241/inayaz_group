@@ -2,6 +2,14 @@ import { test, expect } from "@playwright/test";
 import { SUSTAINABILITY_TOPICS } from "../src/constants/sustainability";
 
 test.describe("Sustainability", () => {
+  test("/sustainability loads for real with a 200 status and correct title", async ({ page }) => {
+    const response = await page.goto("/sustainability");
+    expect(response?.status()).toBe(200);
+    await expect(page.getByText("Page Not Found")).toHaveCount(0);
+    await expect(page).toHaveTitle("Sustainability | INAYAZ Group");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  });
+
   test("eyebrow and heading render", async ({ page }) => {
     await page.goto("/");
     const section = page.locator("[data-sustainability-section]");

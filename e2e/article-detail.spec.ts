@@ -73,7 +73,9 @@ test.describe("Article detail page", () => {
   test("JSON-LD structured data is valid and honest", async ({ page }) => {
     await page.goto(`/news/${article.slug}`);
 
-    const jsonLdText = await page.locator('script[type="application/ld+json"]').textContent();
+    const jsonLdText = await page
+      .locator('script[type="application/ld+json"][data-json-ld="article"]')
+      .textContent();
     expect(jsonLdText).toBeTruthy();
 
     const jsonLd = JSON.parse(jsonLdText!);

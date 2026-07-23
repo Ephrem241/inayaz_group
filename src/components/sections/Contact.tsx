@@ -1,7 +1,16 @@
 import { MotionSection } from "@/components/motion/MotionSection";
 import { ContactForm } from "@/components/forms/ContactForm";
 
-export function Contact() {
+type ContactProps = {
+  // "h2" when this section is embedded on the homepage (which already has
+  // its own h1 in the hero); the dedicated /contact page passes "h1" since
+  // this is the only heading on that page — every page needs exactly one h1.
+  headingLevel?: "h1" | "h2";
+};
+
+export function Contact({ headingLevel = "h2" }: ContactProps = {}) {
+  const Heading = headingLevel;
+
   return (
     <section data-contact-section className="section-dark py-16 md:py-24 lg:py-32">
       <div className="container-wide">
@@ -11,7 +20,7 @@ export function Contact() {
               <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
                 Contact
               </p>
-              <h2 className="mt-4 text-4xl md:text-5xl">Start a Conversation</h2>
+              <Heading className="mt-4 text-4xl md:text-5xl">Start a Conversation</Heading>
               <p className="mt-6 max-w-md text-base text-off-white/80">
                 Reach out to discuss a project, a partnership, or anything else about INAYAZ
                 Group.

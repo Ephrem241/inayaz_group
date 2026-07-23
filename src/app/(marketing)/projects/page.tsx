@@ -6,9 +6,10 @@ import { getProjects } from "../../../../sanity/lib/queries";
 import { adaptProject } from "../../../../sanity/lib/adapters";
 
 export const metadata: Metadata = {
-  title: "Projects | INAYAZ Group",
+  title: "Projects",
   description:
     "Browse INAYAZ Group's portfolio of residential, commercial, and mixed-use developments across Addis Ababa, delivered as a Category 1 General Contractor.",
+  alternates: { canonical: "/projects" },
 };
 
 export default async function ProjectsPage() {

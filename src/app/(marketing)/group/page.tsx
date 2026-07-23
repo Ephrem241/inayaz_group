@@ -7,9 +7,10 @@ import { getDivisions, getProjects } from "../../../../sanity/lib/queries";
 import { adaptDivision, adaptProject } from "../../../../sanity/lib/adapters";
 
 export const metadata: Metadata = {
-  title: "Our Group | INAYAZ Group",
+  title: "Our Group",
   description:
     "Explore INAYAZ Group's network of sub-brands, our sister company Akoya Properties, and the six business divisions — construction and real estate, export trade, import, manufacturing, tour operation and travel, and machinery and equipment rental.",
+  alternates: { canonical: "/group" },
 };
 
 export default async function GroupPage() {
