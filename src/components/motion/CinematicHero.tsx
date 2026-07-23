@@ -58,12 +58,16 @@ export function CinematicHero() {
           "-=0.2",
         );
 
+      // Mobile gets a shorter scroll-scrub throw on the depth layers — the
+      // foreground layer itself is also CSS-hidden below md (reduces both
+      // visual layer count and an unnecessary image download on mobile).
+      const isMobile = window.matchMedia("(max-width: 767px)").matches;
       gsap.timeline({
         scrollTrigger: { trigger: container, start: "top top", end: "bottom top", scrub: true },
       })
         .to(backgroundRef.current, { scale: 1.12, ease: "none" }, 0)
-        .to(midgroundRef.current, { yPercent: -8, ease: "none" }, 0)
-        .to(foregroundRef.current, { yPercent: -14, ease: "none" }, 0);
+        .to(midgroundRef.current, { yPercent: isMobile ? -4 : -8, ease: "none" }, 0)
+        .to(foregroundRef.current, { yPercent: isMobile ? -7 : -14, ease: "none" }, 0);
 
       const pointerFine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
       if (pointerFine) {
@@ -121,7 +125,10 @@ export function CinematicHero() {
         />
       </div>
 
-      <div ref={foregroundRef} className="absolute inset-x-0 -top-[10%] h-[120%]">
+      <div
+        ref={foregroundRef}
+        className="absolute inset-x-0 -top-[10%] hidden h-[120%] md:block"
+      >
         <Image
           src="/images/hero/placeholder-hero-foreground.jpg"
           alt=""
