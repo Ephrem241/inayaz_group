@@ -71,6 +71,8 @@ export function ProjectShowcase({ project, tone }: ProjectShowcaseProps) {
             fill
             sizes="100vw"
             className="object-cover"
+            placeholder={project.image.blurDataURL ? "blur" : "empty"}
+            blurDataURL={project.image.blurDataURL}
           />
         </div>
       </div>

@@ -13,6 +13,7 @@ type MaskRevealImageProps = {
   sizes?: string;
   priority?: boolean;
   className?: string;
+  blurDataURL?: string;
 };
 
 export function MaskRevealImage({
@@ -22,6 +23,7 @@ export function MaskRevealImage({
   sizes = "(min-width: 1024px) 40vw, 100vw",
   priority = false,
   className,
+  blurDataURL,
 }: MaskRevealImageProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const imageInnerRef = useRef<HTMLDivElement>(null);
@@ -60,7 +62,16 @@ export function MaskRevealImage({
       style={{ aspectRatio, clipPath: "inset(0 0 100% 0)" }}
     >
       <div ref={imageInnerRef} className="absolute inset-0 scale-110">
-        <Image src={src} alt={alt} fill priority={priority} sizes={sizes} className="object-cover" />
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          priority={priority}
+          sizes={sizes}
+          className="object-cover"
+          placeholder={blurDataURL ? "blur" : "empty"}
+          blurDataURL={blurDataURL}
+        />
       </div>
     </div>
   );

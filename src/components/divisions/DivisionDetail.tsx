@@ -31,6 +31,8 @@ export function DivisionDetail({ division, relatedProjects, index }: DivisionDet
           fill
           sizes="(min-width: 1024px) 40vw, 100vw"
           className="object-cover"
+          placeholder={division.image.blurDataURL ? "blur" : "empty"}
+          blurDataURL={division.image.blurDataURL}
         />
       </div>
 

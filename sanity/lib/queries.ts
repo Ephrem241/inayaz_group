@@ -26,34 +26,41 @@ import type {
 // consistent with CLAUDE.md's "no raw Sanity/API errors exposed to the
 // client" rule (Phase 13), applied here since it costs nothing to do now.
 
+// "lqip" is added alongside each image's own fields (not nested inside
+// `asset`) so the `asset` field itself stays a plain {_ref, _type}
+// reference — exactly what @sanity/image-url's urlForImage() expects.
+// Dereferencing straight onto `asset` instead would replace that shape and
+// break urlForImage() for no benefit.
+const imageWithLqip = /* groq */ `{ ..., "lqip": asset->metadata.lqip }`;
+
 const projectFields = /* groq */ `
   _id, _updatedAt,
   title,
   "slug": slug.current,
   client, contractor, consultant, structureType, category, propertyType,
   location, status, startYear, completionYear, shortDescription, description,
-  heroImage, gallery, services, builtArea, units, featured, orderRank
+  heroImage${imageWithLqip}, gallery[]${imageWithLqip}, services, builtArea, units, featured, orderRank
 `;
 
 const divisionFields = /* groq */ `
   _id, _updatedAt,
   title,
   "slug": slug.current,
-  description, listLabel, items, icon, image, featured
+  description, listLabel, items, icon, image${imageWithLqip}, featured
 `;
 
 const serviceFields = /* groq */ `
   _id, _updatedAt,
   title,
   "slug": slug.current,
-  description, image, icon, featured
+  description, image${imageWithLqip}, icon, featured
 `;
 
 const articleFields = /* groq */ `
   _id, _updatedAt,
   title,
   "slug": slug.current,
-  excerpt, content, coverImage, category, author, publishedAt, featured
+  excerpt, content, coverImage${imageWithLqip}, category, author, publishedAt, featured
 `;
 
 export async function getProjects(filters: ProjectListFilters = {}): Promise<SanityProject[]> {

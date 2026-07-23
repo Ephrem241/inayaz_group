@@ -82,10 +82,11 @@ function portableTextToArticleBlocks(blocks: PortableTextBlock[] | undefined): A
 // (driven by each consumer's `sizes` prop) still requests smaller variants
 // through Next's built-in image optimizer; this just bounds the source
 // asset Sanity's CDN serves as the largest available rendition.
-function sanityImageToImage(image: SanityImage): { src: string; alt: string } {
+function sanityImageToImage(image: SanityImage): { src: string; alt: string; blurDataURL?: string } {
   return {
     src: urlForImage(image).width(2000).quality(85).auto("format").url(),
     alt: image.alt,
+    blurDataURL: image.lqip,
   };
 }
 

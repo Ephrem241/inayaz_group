@@ -11,7 +11,7 @@ export type Article = {
   publishedAt: string;
   category?: string;
   featured: boolean;
-  coverImage?: { src: string; alt: string };
+  coverImage?: { src: string; alt: string; blurDataURL?: string };
 };
 
 export const ARTICLES: Article[] = [

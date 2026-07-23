@@ -34,6 +34,7 @@ export function ArticleHero({ article }: ArticleHeroProps) {
             <MaskRevealImage
               src={article.coverImage.src}
               alt={article.coverImage.alt}
+              blurDataURL={article.coverImage.blurDataURL}
               aspectRatio="21 / 9"
               priority
             />

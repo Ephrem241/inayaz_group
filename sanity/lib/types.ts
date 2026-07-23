@@ -10,6 +10,12 @@ export type SanityImage = {
   hotspot?: { x: number; y: number; height: number; width: number };
   crop?: { top: number; bottom: number; left: number; right: number };
   alt: string;
+  // Base64 data-URI thumbnail from the asset's metadata, added by every
+  // query in queries.ts via the imageWithLqip GROQ projection — used as
+  // next/image's blurDataURL to avoid a blank flash while the real image
+  // loads (CLAUDE.md Step 28: "Use Sanity's LQIP/blurhash metadata for
+  // blur placeholders with next/image").
+  lqip?: string;
 };
 
 export type PortableTextBlock = {

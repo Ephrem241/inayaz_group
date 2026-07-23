@@ -14,6 +14,7 @@ export function ProjectHero({ project }: ProjectHeroProps) {
           <MaskRevealImage
             src={project.image.src}
             alt={project.image.alt}
+            blurDataURL={project.image.blurDataURL}
             aspectRatio="21 / 9"
             priority
           />

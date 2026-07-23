@@ -9,7 +9,7 @@ type ImageSwitcherItem = {
   name: string;
   description: string;
   icon: ReactNode;
-  image: { src: string; alt: string };
+  image: { src: string; alt: string; blurDataURL?: string };
   listLabel?: string;
   items?: string[];
 };
@@ -63,6 +63,8 @@ export function ServiceImageSwitcher({ items }: ServiceImageSwitcherProps) {
             fill
             sizes="(min-width: 1024px) 55vw, 100vw"
             className="object-cover"
+            placeholder={active.image.blurDataURL ? "blur" : "empty"}
+            blurDataURL={active.image.blurDataURL}
           />
         </div>
 

@@ -17,7 +17,7 @@ export type Service = {
   name: string;
   description: string;
   icon: LucideIcon;
-  image: { src: string; alt: string };
+  image: { src: string; alt: string; blurDataURL?: string };
 };
 
 export const SERVICES: Service[] = [

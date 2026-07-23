@@ -11,7 +11,7 @@ export type Project = {
   location: string | null;
   description: string;
   featured: boolean;
-  image: { src: string; alt: string };
+  image: { src: string; alt: string; blurDataURL?: string };
 };
 
 export const CONTRACTOR = "INAYAZ Construction and Material Import Export";

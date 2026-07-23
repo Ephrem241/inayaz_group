@@ -7,7 +7,7 @@ export type Division = {
   listLabel: string;
   items: string[];
   icon: LucideIcon;
-  image: { src: string; alt: string };
+  image: { src: string; alt: string; blurDataURL?: string };
 };
 
 export const DIVISIONS: Division[] = [

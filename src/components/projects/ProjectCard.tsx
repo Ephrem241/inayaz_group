@@ -17,6 +17,8 @@ export function ProjectCard({ project, showDetails = false }: ProjectCardProps) 
           fill
           sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
           className="object-cover"
+          placeholder={project.image.blurDataURL ? "blur" : "empty"}
+          blurDataURL={project.image.blurDataURL}
         />
       </div>
 
