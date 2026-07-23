@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import { ArticleJsonLd } from "@/components/articles/ArticleJsonLd";
 import { ArticleHero } from "@/components/sections/ArticleHero";
@@ -30,7 +31,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ArticleDetailPage({ params }: Props) {
   const { slug } = await params;
-  const sanityArticle = await getArticleBySlug(slug);
+  const { isEnabled: preview } = await draftMode();
+  const sanityArticle = await getArticleBySlug(slug, { preview });
   if (!sanityArticle) notFound();
   const article = adaptArticle(sanityArticle);
 

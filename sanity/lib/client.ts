@@ -30,3 +30,17 @@ export const serverClient = createClient({
   perspective: "raw",
   token: writeToken,
 });
+
+// No CDN, `perspective: "drafts"` — returns a document's draft version when
+// one exists, falling back to published otherwise. Only ever queried when
+// Next.js Draft Mode is active (src/app/api/draft-mode/enable), so an
+// editor previewing an unpublished edit sees it without affecting what
+// public visitors see through the regular `client` above.
+export const previewClient = createClient({
+  projectId,
+  dataset,
+  apiVersion,
+  useCdn: false,
+  perspective: "drafts",
+  token: readToken,
+});

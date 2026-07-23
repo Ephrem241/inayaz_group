@@ -1,7 +1,7 @@
-import { timingSafeEqual } from "node:crypto";
 import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 import { revalidateSecret } from "../../../../sanity/lib/serverEnv";
+import { timingSafeCompare } from "@/lib/utils/timingSafeCompare";
 
 // Sanity webhook target (configure in sanity.io/manage -> API -> Webhooks):
 // POST this route on publish, with a custom header carrying
@@ -11,21 +11,13 @@ import { revalidateSecret } from "../../../../sanity/lib/serverEnv";
 // comparison — not full signature verification — is the proportionate
 // implementation here; note for future hardening (Phase 13, Security) if a
 // stronger guarantee is ever wanted.
-function isValidSecret(provided: string | null): boolean {
-  if (!provided || !revalidateSecret) return false;
-  const a = Buffer.from(provided);
-  const b = Buffer.from(revalidateSecret);
-  if (a.length !== b.length) return false;
-  return timingSafeEqual(a, b);
-}
-
 export async function POST(request: Request) {
   if (!revalidateSecret) {
     console.error("[revalidate] SANITY_REVALIDATE_SECRET is not configured — rejecting all requests.");
     return NextResponse.json({ revalidated: false, message: "Not configured" }, { status: 500 });
   }
 
-  if (!isValidSecret(request.headers.get("x-revalidate-secret"))) {
+  if (!timingSafeCompare(request.headers.get("x-revalidate-secret"), revalidateSecret)) {
     return NextResponse.json({ revalidated: false, message: "Invalid secret" }, { status: 401 });
   }
 

@@ -15,3 +15,9 @@ export const writeToken = process.env.SANITY_API_WRITE_TOKEN;
 // unverified webhook would let anyone invalidate the site's cache.
 // Configure the same value in Sanity's webhook settings.
 export const revalidateSecret = process.env.SANITY_REVALIDATE_SECRET;
+
+// Gates src/app/api/draft-mode/enable — Step 26's "editors can preview draft
+// content on the live site". Deliberately a separate secret from
+// revalidateSecret (different purpose/blast radius: this one only toggles
+// which content a browser sees, never mutates anything or purges cache).
+export const previewSecret = process.env.SANITY_PREVIEW_SECRET;

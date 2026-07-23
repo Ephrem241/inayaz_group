@@ -1,5 +1,5 @@
 import "server-only";
-import { client } from "./client";
+import { client, previewClient } from "./client";
 import type {
   ArticleListFilters,
   ProjectListFilters,
@@ -93,12 +93,19 @@ export async function getFeaturedProjects(limit = 3): Promise<SanityProject[]> {
   }
 }
 
-export async function getProjectBySlug(slug: string): Promise<SanityProject | null> {
+export async function getProjectBySlug(
+  slug: string,
+  options: { preview?: boolean } = {},
+): Promise<SanityProject | null> {
+  const { preview = false } = options;
   try {
-    const result = await client.fetch(
+    // Preview reads use the drafts-perspective client and skip Next's data
+    // cache entirely — an editor's unpublished edit must never be served to
+    // (or cached for) a regular visitor under the same "project" tag.
+    const result = await (preview ? previewClient : client).fetch(
       /* groq */ `*[_type == "project" && slug.current == $slug][0] { ${projectFields} }`,
       { slug },
-      { next: { tags: ["project", `project:${slug}`] } },
+      preview ? { cache: "no-store" } : { next: { tags: ["project", `project:${slug}`] } },
     );
     return result ?? null;
   } catch (error) {
@@ -193,12 +200,16 @@ export async function getFeaturedArticles(limit = 1): Promise<SanityArticle[]> {
   }
 }
 
-export async function getArticleBySlug(slug: string): Promise<SanityArticle | null> {
+export async function getArticleBySlug(
+  slug: string,
+  options: { preview?: boolean } = {},
+): Promise<SanityArticle | null> {
+  const { preview = false } = options;
   try {
-    const result = await client.fetch(
+    const result = await (preview ? previewClient : client).fetch(
       /* groq */ `*[_type == "article" && slug.current == $slug][0] { ${articleFields} }`,
       { slug },
-      { next: { tags: ["article", `article:${slug}`] } },
+      preview ? { cache: "no-store" } : { next: { tags: ["article", `article:${slug}`] } },
     );
     return result ?? null;
   } catch (error) {

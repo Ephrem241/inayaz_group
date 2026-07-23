@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import { ProjectHero } from "@/components/sections/ProjectHero";
 import { ProjectScope } from "@/components/sections/ProjectScope";
@@ -50,8 +51,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProjectDetailPage({ params }: Props) {
   const { slug } = await params;
+  const { isEnabled: preview } = await draftMode();
   const [sanityProject, sanityConstructionDivision, sanityProjects] = await Promise.all([
-    getProjectBySlug(slug),
+    getProjectBySlug(slug, { preview }),
     getDivisionBySlug("construction-real-estate"),
     getProjects(),
   ]);
