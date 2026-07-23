@@ -30,7 +30,7 @@ export function ProjectHero({ project }: ProjectHeroProps) {
         </MotionSection>
 
         <MotionSection delay={0.1} className="mt-10">
-          <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+          <p className="text-sm font-medium tracking-[0.2em] text-construction-gold-accessible uppercase">
             {project.category}
           </p>
           <h1 className="mt-4 text-5xl md:text-6xl lg:text-7xl">{project.name}</h1>

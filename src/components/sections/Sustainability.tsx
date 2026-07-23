@@ -22,7 +22,7 @@ export function Sustainability({ headingLevel = "h2" }: SustainabilityProps = {}
         <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-7">
             <MotionSection y={16}>
-              <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+              <p className="text-sm font-medium tracking-[0.2em] text-construction-gold-accessible uppercase">
                 Sustainability
               </p>
               <Heading className="mt-4 text-4xl md:text-5xl">Built to Last, Built Responsibly</Heading>
@@ -36,7 +36,7 @@ export function Sustainability({ headingLevel = "h2" }: SustainabilityProps = {}
                     data-sustainability-topic={topic.id}
                     className="border-l-2 border-construction-gold pl-6"
                   >
-                    <span className="text-sm font-medium tracking-[0.2em] text-primary">
+                    <span className="text-sm font-medium tracking-[0.2em] text-construction-gold-accessible">
                       {topic.number}
                     </span>
                     <h3 className="mt-2 text-xl font-medium md:text-2xl">{topic.name}</h3>

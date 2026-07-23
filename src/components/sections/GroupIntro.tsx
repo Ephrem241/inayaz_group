@@ -5,7 +5,7 @@ export function GroupIntro() {
     <section data-group-intro-section className="section-light py-16 md:py-24 lg:py-32">
       <div className="container-content">
         <MotionSection>
-          <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+          <p className="text-sm font-medium tracking-[0.2em] text-construction-gold-accessible uppercase">
             Our Group
           </p>
           <h1 className="mt-4 text-5xl md:text-6xl lg:text-7xl">

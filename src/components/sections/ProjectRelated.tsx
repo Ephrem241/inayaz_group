@@ -13,7 +13,7 @@ export function ProjectRelated({ relatedProjects }: ProjectRelatedProps) {
     <section className="section-light py-16 md:py-24 lg:py-32">
       <div className="container-wide">
         <MotionSection>
-          <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+          <p className="text-sm font-medium tracking-[0.2em] text-construction-gold-accessible uppercase">
             Related Projects
           </p>
           <h2 className="mt-4 text-4xl md:text-5xl">More From INAYAZ</h2>

@@ -43,7 +43,7 @@ export function DivisionDetail({ division, relatedProjects, index }: DivisionDet
         </div>
         <p className="mt-4 max-w-xl text-base text-muted-foreground">{division.description}</p>
 
-        <p className="mt-6 text-sm font-medium tracking-[0.2em] text-primary uppercase">
+        <p className="mt-6 text-sm font-medium tracking-[0.2em] text-construction-gold-accessible uppercase">
           {division.listLabel}
         </p>
         <ul className="mt-3 grid grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-2">
@@ -56,7 +56,7 @@ export function DivisionDetail({ division, relatedProjects, index }: DivisionDet
 
         {relatedProjects && relatedProjects.length > 0 && (
           <div data-related-projects className="mt-8 rounded-sm bg-muted/40 p-6">
-            <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+            <p className="text-sm font-medium tracking-[0.2em] text-construction-gold-accessible uppercase">
               Related Projects
             </p>
             <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-3">
@@ -69,7 +69,7 @@ export function DivisionDetail({ division, relatedProjects, index }: DivisionDet
 
         <Link
           href="/contact"
-          className="mt-6 inline-flex text-sm font-medium text-foreground underline decoration-construction-gold underline-offset-4 transition-colors hover:text-primary"
+          className="mt-6 inline-flex text-sm font-medium text-foreground underline decoration-construction-gold underline-offset-4 transition-colors hover:text-construction-gold-accessible"
         >
           Discuss a {division.name} Project
         </Link>

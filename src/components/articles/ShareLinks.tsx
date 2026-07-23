@@ -39,7 +39,7 @@ export function ShareLinks({ article }: ShareLinksProps) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`Share on ${name}`}
-          className="text-muted-foreground transition-colors hover:text-primary"
+          className="text-muted-foreground transition-colors hover:text-construction-gold-accessible"
         >
           <Icon className="h-5 w-5" aria-hidden="true" />
           <span className="sr-only"> (opens in a new tab)</span>

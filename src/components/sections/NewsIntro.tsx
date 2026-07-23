@@ -5,7 +5,7 @@ export function NewsIntro() {
     <section data-news-intro-section className="section-light py-16 md:py-24 lg:py-32">
       <div className="container-content">
         <MotionSection>
-          <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+          <p className="text-sm font-medium tracking-[0.2em] text-construction-gold-accessible uppercase">
             News &amp; Insights
           </p>
           <h1 className="mt-4 text-5xl md:text-6xl lg:text-7xl">Updates From INAYAZ</h1>

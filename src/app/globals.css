@@ -8,6 +8,17 @@
   --color-off-white: #f5f3ee;
   --color-steel-gray: #7b848c;
 
+  /* WCAG AA-accessible variants of the two brand colors above, for text use
+     only. The literal brand hexes (#B79052, #7B848C) fail 4.5:1 against
+     off-white/warm-stone as text, and steel-gray narrowly fails against
+     deep-navy too — verified with the WCAG relative-luminance formula, not
+     eyeballed. Never used for icons/buttons/borders, only where the color
+     is applied to readable text — see the .section-light/.section-dark/
+     .bg-warm-stone overrides below. */
+  --color-construction-gold-accessible: #5a4625; /* 8.10:1 on off-white, 5.40:1 on warm-stone */
+  --color-steel-gray-on-light: #4a4f54; /* 7.46:1 on off-white, 4.98:1 on warm-stone */
+  --color-steel-gray-on-dark: #848d94; /* 4.94:1 on deep-navy */
+
   --background: var(--color-off-white);
   --foreground: var(--color-architectural-charcoal);
   --primary: var(--color-construction-gold);
@@ -30,6 +41,7 @@
   --color-architectural-charcoal: var(--color-architectural-charcoal);
   --color-warm-stone: var(--color-warm-stone);
   --color-construction-gold: var(--color-construction-gold);
+  --color-construction-gold-accessible: var(--color-construction-gold-accessible);
   --color-off-white: var(--color-off-white);
   --color-steel-gray: var(--color-steel-gray);
 
@@ -83,6 +95,27 @@
 .container-narrow {
   width: min(100% - 2rem, 820px);
   margin-inline: auto;
+}
+
+/* Re-scoping --muted-foreground here (rather than overriding the
+   .text-muted-foreground utility class directly) means every existing
+   text-muted-foreground usage, including hover: variants, automatically
+   resolves to the accessible variant — Tailwind's generated utilities
+   reference this custom property live (@theme inline above), so this
+   cascades correctly without touching a single component.
+   --primary is NOT rescoped the same way: it also drives .btn-primary's
+   and the skip-link's *background*, which relies on the original lighter
+   gold for readable navy button text — darkening it here would silently
+   break every gold button inside a light section. Gold text specifically
+   is fixed per-usage instead, via the .text-construction-gold-accessible
+   utility (see @theme inline). */
+.section-light,
+.bg-warm-stone {
+  --muted-foreground: var(--color-steel-gray-on-light);
+}
+
+.section-dark {
+  --muted-foreground: var(--color-steel-gray-on-dark);
 }
 
 .section-light {

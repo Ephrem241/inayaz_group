@@ -14,12 +14,18 @@ export function PremiumHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const scrolled = useScrolled(80);
   const pathname = usePathname();
+  // The transparent, white-text header only works over the homepage's dark
+  // cinematic hero — every other page starts with a light section-light
+  // intro directly under the fixed header, which would render the
+  // off-white wordmark/nav text invisible against an equally off-white
+  // background. Solid on every route except the homepage's unscrolled top.
+  const solid = scrolled || pathname !== "/";
 
   return (
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,box-shadow] duration-[var(--duration-micro)] ease-[var(--ease-power2-out)]",
-        scrolled
+        solid
           ? "bg-deep-navy/95 shadow-[0_1px_0_0_rgba(255,255,255,0.08)] backdrop-blur-md"
           : "bg-transparent",
       )}

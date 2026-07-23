@@ -7,7 +7,7 @@ export function AboutIntro() {
     <section data-about-intro-section className="section-light py-16 md:py-24 lg:py-32">
       <div className="container-content">
         <MotionSection>
-          <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+          <p className="text-sm font-medium tracking-[0.2em] text-construction-gold-accessible uppercase">
             About INAYAZ
           </p>
           <h1 className="mt-4 text-5xl md:text-6xl lg:text-7xl">
@@ -35,7 +35,7 @@ export function AboutIntro() {
 
         <MotionSection delay={0.15}>
           <blockquote className="mt-10 border-l-2 border-construction-gold pl-6">
-            <Quote className="h-6 w-6 text-primary" aria-hidden="true" />
+            <Quote className="h-6 w-6 text-construction-gold-accessible" aria-hidden="true" />
             <p className="mt-3 text-2xl leading-snug text-foreground md:text-3xl">
               {MEANING_OF_INAYAZ}
             </p>
@@ -43,7 +43,7 @@ export function AboutIntro() {
         </MotionSection>
 
         <MotionSection delay={0.2}>
-          <p className="mt-10 text-sm font-medium tracking-[0.2em] text-primary uppercase">
+          <p className="mt-10 text-sm font-medium tracking-[0.2em] text-construction-gold-accessible uppercase">
             Since 2015: A Legacy of Excellence
           </p>
           <div className="mt-4 flex items-center gap-4">

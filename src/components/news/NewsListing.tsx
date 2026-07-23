@@ -26,7 +26,7 @@ export function NewsListing({ articles }: NewsListingProps) {
         {featured.map((article, index) => (
           <MotionSection key={article.slug} delay={index * 0.05}>
             <div data-featured-article={article.slug} className="border-l-2 border-construction-gold pl-6">
-              <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+              <p className="text-sm font-medium tracking-[0.2em] text-construction-gold-accessible uppercase">
                 {article.category ?? "Featured"}
               </p>
               <h2 className="mt-4 text-3xl md:text-4xl">{article.title}</h2>
@@ -36,7 +36,7 @@ export function NewsListing({ articles }: NewsListingProps) {
               <p className="mt-4 max-w-2xl text-base text-muted-foreground">{article.excerpt}</p>
               <Link
                 href={`/news/${article.slug}`}
-                className="mt-6 inline-flex text-sm font-medium text-foreground underline decoration-construction-gold underline-offset-4 transition-colors hover:text-primary"
+                className="mt-6 inline-flex text-sm font-medium text-foreground underline decoration-construction-gold underline-offset-4 transition-colors hover:text-construction-gold-accessible"
               >
                 Read Article
               </Link>

@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { gsap, ScrollTrigger } from "@/lib/motion/gsap";
 import { useReducedMotionContext } from "@/components/motion/ReducedMotionProvider";
+import { cn } from "@/lib/utils/cn";
 import type { Project } from "@/constants/projects";
 
 type ProjectShowcaseProps = {
@@ -78,7 +79,15 @@ export function ProjectShowcase({ project, tone }: ProjectShowcaseProps) {
       </div>
 
       <div className="container-wide mt-10">
-        <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+        <p
+          className={cn(
+            "text-sm font-medium tracking-[0.2em] uppercase",
+            // Gold on the light tone needs the darkened, WCAG AA-accessible
+            // variant; the dark tone's navy background already passes with
+            // the brand gold as-is.
+            tone === "dark" ? "text-primary" : "text-construction-gold-accessible",
+          )}
+        >
           {project.category}
         </p>
         <h3 className="mt-4 text-4xl md:text-5xl">{project.name}</h3>

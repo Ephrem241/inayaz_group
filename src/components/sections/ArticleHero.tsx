@@ -29,7 +29,7 @@ export function ArticleHero({ article }: ArticleHeroProps) {
         />
 
         <MotionSection className="mt-6">
-          <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+          <p className="text-sm font-medium tracking-[0.2em] text-construction-gold-accessible uppercase">
             {article.category ?? "News & Insights"}
           </p>
           <h1 className="mt-4 text-4xl md:text-5xl lg:text-6xl">{article.title}</h1>

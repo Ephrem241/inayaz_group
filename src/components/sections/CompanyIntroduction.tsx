@@ -11,7 +11,7 @@ export function CompanyIntroduction() {
         <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-7">
             <MotionSection>
-              <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+              <p className="text-sm font-medium tracking-[0.2em] text-construction-gold-accessible uppercase">
                 Since 2015
               </p>
               <h2 className="mt-4 text-4xl md:text-5xl">
@@ -35,7 +35,7 @@ export function CompanyIntroduction() {
 
             <MotionSection delay={0.15}>
               <blockquote className="mt-10 border-l-2 border-construction-gold pl-6">
-                <Quote className="h-6 w-6 text-primary" aria-hidden="true" />
+                <Quote className="h-6 w-6 text-construction-gold-accessible" aria-hidden="true" />
                 <p className="mt-3 text-2xl leading-snug text-foreground md:text-3xl">
                   {MEANING_OF_INAYAZ}
                 </p>

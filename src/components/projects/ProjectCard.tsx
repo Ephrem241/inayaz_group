@@ -22,7 +22,7 @@ export function ProjectCard({ project, showDetails = false }: ProjectCardProps) 
         />
       </div>
 
-      <p className="mt-4 text-xs font-medium tracking-[0.2em] text-primary uppercase">
+      <p className="mt-4 text-xs font-medium tracking-[0.2em] text-construction-gold-accessible uppercase">
         {project.category}
       </p>
       <h3 className="mt-2 text-xl">{project.name}</h3>
@@ -42,7 +42,7 @@ export function ProjectCard({ project, showDetails = false }: ProjectCardProps) 
       <Link
         href={`/projects/${project.slug}`}
         aria-label={`View ${project.name} project`}
-        className="mt-3 inline-flex text-sm font-medium text-foreground underline decoration-construction-gold underline-offset-4 transition-colors hover:text-primary"
+        className="mt-3 inline-flex text-sm font-medium text-foreground underline decoration-construction-gold underline-offset-4 transition-colors hover:text-construction-gold-accessible"
       >
         View Project
       </Link>
