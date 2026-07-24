@@ -45,6 +45,10 @@ export function ArticleHero({ article }: ArticleHeroProps) {
               alt={article.coverImage.alt}
               blurDataURL={article.coverImage.blurDataURL}
               aspectRatio="21 / 9"
+              // Full-width within container-content (caps at 1200px), not
+              // MaskRevealImage's default 40vw column assumption — see
+              // ProjectHero.tsx for why this matters (image sharpness).
+              sizes="(min-width: 1200px) 1200px, 100vw"
               priority
             />
           </MotionSection>

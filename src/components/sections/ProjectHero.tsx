@@ -25,6 +25,11 @@ export function ProjectHero({ project }: ProjectHeroProps) {
             alt={project.image.alt}
             blurDataURL={project.image.blurDataURL}
             aspectRatio="21 / 9"
+            // Full-width within container-content (caps at 1200px), not the
+            // 40vw column MaskRevealImage's default sizes assumes — without
+            // this override Next selects a ~576px source for a ~1200px
+            // display, upscaling and visibly softening the image.
+            sizes="(min-width: 1200px) 1200px, 100vw"
             priority
           />
         </MotionSection>
