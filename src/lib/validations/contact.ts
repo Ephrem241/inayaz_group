@@ -34,7 +34,13 @@ export const contactFormSchema = z.object({
   consent: z.boolean().refine((value) => value === true, {
     message: "Consent is required to submit this form",
   }),
-  honeypot: z.string().max(0).optional(),
+  // Deliberately no length/emptiness constraint here — a bot that fills this
+  // field must still pass schema validation so src/lib/services/contact.ts's
+  // own honeypot check is what runs (returning a fake "success" identical to
+  // a real submission). A max(0) constraint here would instead fail schema
+  // validation first, handing the bot a distinctly different error response
+  // and defeating the point of disguising the rejection.
+  honeypot: z.string().optional(),
 });
 
 export type ContactFormValues = z.infer<typeof contactFormSchema>;
