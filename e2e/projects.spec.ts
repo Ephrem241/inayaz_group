@@ -73,7 +73,7 @@ test.describe("Projects listing page", () => {
     expect(firstSlug).toBe("akoya-ozone");
   });
 
-  test("cards show location when present, status pending note always, and correct CTA links", async ({
+  test("cards show location when present, omit status when unconfirmed, and use correct CTA links", async ({
     page,
   }) => {
     await page.goto("/projects");
@@ -85,7 +85,10 @@ test.describe("Projects listing page", () => {
     await expect(twinz.getByText("Sarbet, Addis Ababa")).toHaveCount(0);
     await expect(twinz.getByText("4 Kilo district, Addis Ababa")).toHaveCount(0);
 
-    await expect(page.locator("[data-pending-note]")).toHaveCount(7);
+    // No current project has a confirmed status — the field is omitted
+    // entirely rather than shown as a placeholder note (Phase D).
+    await expect(page.locator('[data-field="status"]')).toHaveCount(0);
+    await expect(page.getByText("Pending confirmation")).toHaveCount(0);
 
     for (const project of PROJECTS) {
       const card = page.locator(`[data-project="${project.slug}"]`);

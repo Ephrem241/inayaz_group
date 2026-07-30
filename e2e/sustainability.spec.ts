@@ -21,8 +21,10 @@ test.describe("Sustainability", () => {
     ).toBeVisible();
   });
 
-  test("all seven topic names and verbatim descriptions render", async ({ page }) => {
-    await page.goto("/");
+  test("all seven topic names and verbatim descriptions render on the full /sustainability page", async ({
+    page,
+  }) => {
+    await page.goto("/sustainability");
 
     for (const topic of SUSTAINABILITY_TOPICS) {
       const panel = page.locator(`[data-sustainability-topic="${topic.id}"]`);
@@ -32,9 +34,26 @@ test.describe("Sustainability", () => {
     }
   });
 
-  test("exactly seven topics render", async ({ page }) => {
-    await page.goto("/");
+  test("exactly seven topics render on the full /sustainability page", async ({ page }) => {
+    await page.goto("/sustainability");
     await expect(page.locator("[data-sustainability-topic]")).toHaveCount(7);
+  });
+
+  test("the homepage preview shows only a subset of topics plus an Explore Sustainability CTA", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const section = page.locator("[data-sustainability-section]");
+    await section.scrollIntoViewIfNeeded();
+
+    const topicCount = await page.locator("[data-sustainability-topic]").count();
+    expect(topicCount).toBeGreaterThan(0);
+    expect(topicCount).toBeLessThan(SUSTAINABILITY_TOPICS.length);
+
+    await expect(section.getByRole("link", { name: "Explore Sustainability" })).toHaveAttribute(
+      "href",
+      "/sustainability",
+    );
   });
 
   test("both editorial images load successfully", async ({ page }) => {

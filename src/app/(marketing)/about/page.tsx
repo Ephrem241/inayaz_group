@@ -6,6 +6,8 @@ import { Leadership } from "@/components/sections/Leadership";
 import { RecognitionAndTrust } from "@/components/sections/RecognitionAndTrust";
 import { WhyChooseInayaz } from "@/components/sections/WhyChooseInayaz";
 import { AboutCTA } from "@/components/sections/AboutCTA";
+import { getRecognitions } from "../../../../sanity/lib/queries";
+import { adaptRecognition } from "../../../../sanity/lib/adapters";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -14,14 +16,17 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const sanityRecognitions = await getRecognitions();
+  const recognitions = sanityRecognitions.map(adaptRecognition);
+
   return (
     <>
       <AboutIntro />
       <MissionVision />
       <CoreValues />
       <Leadership />
-      <RecognitionAndTrust />
+      <RecognitionAndTrust recognitions={recognitions} />
       <WhyChooseInayaz />
       <AboutCTA />
     </>

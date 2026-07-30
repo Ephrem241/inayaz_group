@@ -1,10 +1,13 @@
 import { MotionSection } from "@/components/motion/MotionSection";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 
 export function ProjectsIntro() {
   return (
     <section data-projects-intro-section className="section-light py-16 md:py-24 lg:py-32">
       <div className="container-content">
-        <MotionSection>
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Projects" }]} />
+
+        <MotionSection className="mt-6">
           <p className="text-sm font-medium tracking-[0.2em] text-construction-gold-accessible uppercase">
             Projects
           </p>

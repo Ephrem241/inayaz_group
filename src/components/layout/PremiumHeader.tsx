@@ -9,6 +9,7 @@ import { Wordmark } from "@/components/layout/Wordmark";
 import { MobileNavigation } from "@/components/navigation/MobileNavigation";
 import { useScrolled } from "@/hooks/useScrolled";
 import { cn } from "@/lib/utils/cn";
+import { trackCta } from "@/lib/analytics/track";
 
 export function PremiumHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -53,7 +54,11 @@ export function PremiumHeader() {
         </nav>
 
         <div className="flex items-center gap-4">
-          <Link href={PRIMARY_CTA.href} className="btn btn-primary hidden md:inline-flex">
+          <Link
+            href={PRIMARY_CTA.href}
+            className="btn btn-primary hidden md:inline-flex"
+            onClick={() => trackCta("nav_discuss_project")}
+          >
             {PRIMARY_CTA.label}
           </Link>
 

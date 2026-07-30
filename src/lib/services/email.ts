@@ -21,6 +21,15 @@ export type ContactEmailPayload = {
   projectType?: string;
   estimatedBudget?: string;
   projectLocation?: string;
+  targetStartDate?: string;
+  developmentInterest?: string;
+  preferredUnitType?: string;
+  visitDate?: string;
+  preferredContactMethod?: string;
+  equipmentType?: string;
+  rentalPeriod?: string;
+  rentalLocation?: string;
+  requiredDate?: string;
   message: string;
 };
 
@@ -34,6 +43,17 @@ function buildNotificationText(payload: ContactEmailPayload): string {
     payload.projectType ? `Project type: ${payload.projectType}` : null,
     payload.estimatedBudget ? `Estimated budget: ${payload.estimatedBudget}` : null,
     payload.projectLocation ? `Project location: ${payload.projectLocation}` : null,
+    payload.targetStartDate ? `Target start date: ${payload.targetStartDate}` : null,
+    payload.developmentInterest ? `Development interest: ${payload.developmentInterest}` : null,
+    payload.preferredUnitType ? `Preferred unit type: ${payload.preferredUnitType}` : null,
+    payload.visitDate ? `Preferred visit date: ${payload.visitDate}` : null,
+    payload.preferredContactMethod
+      ? `Preferred contact method: ${payload.preferredContactMethod}`
+      : null,
+    payload.equipmentType ? `Equipment type: ${payload.equipmentType}` : null,
+    payload.rentalPeriod ? `Rental period: ${payload.rentalPeriod}` : null,
+    payload.rentalLocation ? `Rental location: ${payload.rentalLocation}` : null,
+    payload.requiredDate ? `Required date: ${payload.requiredDate}` : null,
     "",
     "Message:",
     payload.message,

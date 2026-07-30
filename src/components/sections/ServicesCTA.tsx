@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { MotionSection } from "@/components/motion/MotionSection";
 import { PRIMARY_CTA } from "@/constants/navigation";
+import { TrackedLink } from "@/components/analytics/TrackedLink";
 
 export function ServicesCTA() {
   return (
@@ -15,9 +15,14 @@ export function ServicesCTA() {
             Reach out to discuss a project, a partnership, or anything else about
             INAYAZ Group.
           </p>
-          <Link href={PRIMARY_CTA.href} className="btn btn-primary mt-8 inline-flex">
+          <TrackedLink
+            href={PRIMARY_CTA.href}
+            event="construction_consultation"
+            eventProps={{ source: "services_cta" }}
+            className="btn btn-primary mt-8 inline-flex"
+          >
             {PRIMARY_CTA.label}
-          </Link>
+          </TrackedLink>
         </MotionSection>
       </div>
     </section>

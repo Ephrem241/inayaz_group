@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { MotionSection } from "@/components/motion/MotionSection";
 import { PRIMARY_CTA } from "@/constants/navigation";
 import type { Project } from "@/constants/projects";
+import { TrackedLink } from "@/components/analytics/TrackedLink";
 
 type ProjectDetailCTAProps = {
   project: Project;
@@ -22,9 +22,14 @@ export function ProjectDetailCTA({ project }: ProjectDetailCTAProps) {
             Reach out to discuss a project, a partnership, or anything else about
             INAYAZ Group.
           </p>
-          <Link href={PRIMARY_CTA.href} className="btn btn-primary mt-8 inline-flex">
+          <TrackedLink
+            href={PRIMARY_CTA.href}
+            event="construction_consultation"
+            eventProps={{ source: "project_detail_cta", project: project.slug }}
+            className="btn btn-primary mt-8 inline-flex"
+          >
             {PRIMARY_CTA.label}
-          </Link>
+          </TrackedLink>
         </MotionSection>
       </div>
     </section>

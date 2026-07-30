@@ -62,6 +62,7 @@ export function ProjectShowcase({ project, tone }: ProjectShowcaseProps) {
       <div
         ref={wrapperRef}
         data-project-reveal
+        data-motion-initial
         className="relative aspect-[4/3] w-full overflow-hidden lg:aspect-[21/9]"
         style={{ clipPath: "inset(0 0 100% 0)" }}
       >

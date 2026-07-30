@@ -57,6 +57,21 @@ test.describe("Construction Process", () => {
     await expect(current).toHaveAttribute("aria-label", PROCESS_STAGES[2].name);
   });
 
+  test("the pinned section contains no focusable elements, so keyboard Tab can never get stuck inside it", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const focusable = page.locator(
+      "[data-construction-process-desktop] a, " +
+        "[data-construction-process-desktop] button, " +
+        "[data-construction-process-desktop] input, " +
+        "[data-construction-process-desktop] select, " +
+        "[data-construction-process-desktop] textarea, " +
+        "[data-construction-process-desktop] [tabindex]",
+    );
+    await expect(focusable).toHaveCount(0);
+  });
+
   test.describe("mobile viewport", () => {
     test.use({ viewport: { width: 390, height: 844 } });
 

@@ -1,7 +1,10 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Company Introduction", () => {
-  test("renders title, body copy, quote, timeline, and CTA", async ({ page }) => {
+  test("renders title, a concise purpose statement, and CTA", async ({ page }) => {
+    // Trimmed to a ≤2-sentence purpose statement (Phase C) — the full brand
+    // story (meaning of INAYAZ quote, founding timeline) lives on /about
+    // only now, not duplicated here.
     await page.goto("/");
 
     const heading = page.getByRole("heading", { name: "Built on Purpose. Driven by Integrity." });
@@ -11,11 +14,7 @@ test.describe("Company Introduction", () => {
     await expect(
       page.getByText(/Since 2015, INAYAZ has grown into a diversified/),
     ).toBeVisible();
-    await expect(page.getByText(/From complex high-rise developments/)).toBeVisible();
-    await expect(
-      page.getByText(/INAYAZ represents care, precision, and responsibility/),
-    ).toBeVisible();
-    await expect(page.getByText(/2015 — Founded/)).toBeVisible();
+    await expect(page.getByText(/From high-rise construction to international trade/)).toBeVisible();
     await expect(page.getByRole("link", { name: "About INAYAZ" })).toHaveAttribute(
       "href",
       "/about",

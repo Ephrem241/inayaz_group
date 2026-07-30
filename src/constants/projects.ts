@@ -12,6 +12,23 @@ export type Project = {
   description: string;
   featured: boolean;
   image: { src: string; alt: string; blurDataURL?: string };
+  // Not yet confirmed for any current project — always null today, but no
+  // longer stripped at the adapter layer, so real values render as soon as
+  // they're entered in Sanity (Phase D). Every consumer must render these
+  // conditionally, never with a fabricated fallback.
+  status: "Completed" | "Ongoing" | "Upcoming" | null;
+  completionYear: number | null;
+  builtArea: string | null;
+  units: number | null;
+  gallery: { src: string; alt: string; blurDataURL?: string }[];
+  services: string[] | null;
+  // Real Estate detail fields — optional, hidden cleanly when absent.
+  unitTypes: string[] | null;
+  amenities: string[] | null;
+  pricingNote: string | null;
+  paymentPlanNote: string | null;
+  brochureUrl: string | null;
+  salesContact: string | null;
 };
 
 export const CONTRACTOR = "INAYAZ Construction and Material Import Export";
@@ -27,10 +44,22 @@ export const PROJECTS: Project[] = [
     structure: "2B+G+M+30+T (33 levels)",
     consultant: "KH Consulting",
     category: "Category 1 General Contractor, GC-1",
+    status: null,
+    completionYear: null,
+    builtArea: null,
+    units: null,
+    gallery: [],
+    services: null,
+    unitTypes: null,
+    amenities: null,
+    pricingNote: null,
+    paymentPlanNote: null,
+    brochureUrl: null,
+    salesContact: null,
     propertyType: "Mixed-Use",
     location: "Sarbet, Addis Ababa",
     description:
-      "Landmark high-rise designed to redefine Addis Ababa's skyline — 2 basements, ground, mezzanine, 30 stories, and terrace — blending premium corporate and residential spaces with advanced structural design and world-class engineering execution.",
+      "Landmark high-rise designed to redefine Addis Ababa's skyline — 2 basements, ground, mezzanine, 30 stories, and terrace — blending premium corporate and residential spaces with advanced structural design and disciplined engineering coordination.",
     featured: true,
     image: {
       src: "/images/projects/placeholder-project-ameliyaz.jpg",
@@ -44,6 +73,18 @@ export const PROJECTS: Project[] = [
     structure: "14 levels",
     consultant: null,
     category: "Category 1 General Contractor, GC-1",
+    status: null,
+    completionYear: null,
+    builtArea: null,
+    units: null,
+    gallery: [],
+    services: null,
+    unitTypes: null,
+    amenities: null,
+    pricingNote: null,
+    paymentPlanNote: null,
+    brochureUrl: null,
+    salesContact: null,
     propertyType: "Commercial",
     location: "4 Kilo district, Addis Ababa",
     description:
@@ -61,6 +102,18 @@ export const PROJECTS: Project[] = [
     structure: "2B+G+M+16+T (19 levels)",
     consultant: "KH Consulting",
     category: "Category 1 General Contractor, GC-1",
+    status: null,
+    completionYear: null,
+    builtArea: null,
+    units: null,
+    gallery: [],
+    services: null,
+    unitTypes: null,
+    amenities: null,
+    pricingNote: null,
+    paymentPlanNote: null,
+    brochureUrl: null,
+    salesContact: null,
     propertyType: "Residential",
     location: null,
     description:
@@ -78,6 +131,18 @@ export const PROJECTS: Project[] = [
     structure: "1B+G+17 (19 levels)",
     consultant: "KH Consulting",
     category: "Category 1 General Contractor, GC-1",
+    status: null,
+    completionYear: null,
+    builtArea: null,
+    units: null,
+    gallery: [],
+    services: null,
+    unitTypes: null,
+    amenities: null,
+    pricingNote: null,
+    paymentPlanNote: null,
+    brochureUrl: null,
+    salesContact: null,
     propertyType: "Residential",
     location: null,
     description:
@@ -95,6 +160,18 @@ export const PROJECTS: Project[] = [
     structure: "B+G+M+12 (15 levels)",
     consultant: "KH Consulting",
     category: "Category 1 General Contractor, GC-1",
+    status: null,
+    completionYear: null,
+    builtArea: null,
+    units: null,
+    gallery: [],
+    services: null,
+    unitTypes: null,
+    amenities: null,
+    pricingNote: null,
+    paymentPlanNote: null,
+    brochureUrl: null,
+    salesContact: null,
     propertyType: "Residential",
     location: null,
     description:
@@ -112,6 +189,18 @@ export const PROJECTS: Project[] = [
     structure: "SB+1B+G+12 (15 levels)",
     consultant: "KH Consulting",
     category: "Category 1 General Contractor, GC-1",
+    status: null,
+    completionYear: null,
+    builtArea: null,
+    units: null,
+    gallery: [],
+    services: null,
+    unitTypes: null,
+    amenities: null,
+    pricingNote: null,
+    paymentPlanNote: null,
+    brochureUrl: null,
+    salesContact: null,
     propertyType: "Residential",
     location: null,
     description:
@@ -129,6 +218,18 @@ export const PROJECTS: Project[] = [
     structure: "3B+G+18 (22 levels)",
     consultant: "KH Consulting",
     category: "Category 1 General Contractor, GC-1",
+    status: null,
+    completionYear: null,
+    builtArea: null,
+    units: null,
+    gallery: [],
+    services: null,
+    unitTypes: null,
+    amenities: null,
+    pricingNote: null,
+    paymentPlanNote: null,
+    brochureUrl: null,
+    salesContact: null,
     propertyType: "Residential",
     location: null,
     description:

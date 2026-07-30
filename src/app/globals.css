@@ -181,6 +181,38 @@
   }
 }
 
+/* GSAP-animated elements (MotionSection, CinematicHero, MaskRevealImage)
+   ship a static hidden/offset initial state in their className/inline style
+   so the very first paint doesn't jump — normally flipped visible by a
+   useEffect once GSAP runs. If JS never loads, hydration fails, or a script
+   blocker strips it, that useEffect never fires and this content would stay
+   permanently invisible. `.no-js` is the default class on <html> (see
+   src/app/layout.tsx), removed by an inline, render-blocking script the
+   instant JS actually runs — so it's only ever still present when JS
+   genuinely didn't execute, which is exactly when this override is needed.
+   The <noscript> stylesheet in the root layout is a second, independent
+   fallback for the same failure mode. */
+.no-js [data-motion-initial] {
+  opacity: 1 !important;
+  transform: none !important;
+  clip-path: none !important;
+}
+
+/* ProcessScroller's desktop tree stacks all four stage panels absolutely on
+   top of each other, with per-panel opacity set only by the GSAP effect
+   that pins/scrubs between them — with no JS, that opacity is never applied
+   and every panel would render overlapping and illegible (a different
+   failure mode than the opacity-0 case above: not hidden, but unreadable).
+   Forcing the same always-safe, already-built stacked mobile timeline
+   universally under .no-js sidesteps that entirely, reusing the exact
+   fallback this component already uses for prefers-reduced-motion. */
+.no-js [data-construction-process-desktop] {
+  display: none !important;
+}
+.no-js [data-construction-process-mobile] {
+  display: block !important;
+}
+
 .grain-overlay {
   pointer-events: none;
   opacity: 0.05;

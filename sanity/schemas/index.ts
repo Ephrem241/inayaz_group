@@ -6,6 +6,7 @@ import { service } from "./documents/service";
 import { article } from "./documents/article";
 import { siteSettings } from "./documents/siteSettings";
 import { contactSubmission } from "./documents/contactSubmission";
+import { recognition } from "./documents/recognition";
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   // Objects
@@ -17,4 +18,5 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   article,
   siteSettings,
   contactSubmission,
+  recognition,
 ];

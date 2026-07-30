@@ -82,11 +82,26 @@ test.describe("Our Group page", () => {
     await expect(exportRelated).toHaveCount(0);
   });
 
-  test("every division has a Discuss a Project link to Contact", async ({ page }) => {
+  test("every division has an intent-based CTA linking to Contact with its interest param", async ({
+    page,
+  }) => {
+    // Phase E replaced the generic "Discuss a Project" text (same for every
+    // division) with intent-based copy per division, each pre-selecting its
+    // own service interest via a query param.
     await page.goto("/group");
 
-    const links = page.locator('[data-division] a[href="/contact"]');
-    await expect(links).toHaveCount(6);
+    const divisionIds = [
+      "construction-real-estate",
+      "export-trade",
+      "import",
+      "manufacturing",
+      "tour-operation-travel",
+      "machinery-equipment-rental",
+    ];
+    for (const id of divisionIds) {
+      const link = page.locator(`[data-division="${id}"] a[href^="/contact?interest="]`);
+      await expect(link).toHaveAttribute("href", `/contact?interest=${id}`);
+    }
   });
 
   test("closing CTA links to Contact", async ({ page }) => {
@@ -94,7 +109,7 @@ test.describe("Our Group page", () => {
     const section = page.locator("[data-group-cta-section]");
     await section.scrollIntoViewIfNeeded();
 
-    await expect(section.getByRole("link", { name: "Contact Us" })).toHaveAttribute(
+    await expect(section.getByRole("link", { name: "Discuss a Project" })).toHaveAttribute(
       "href",
       "/contact",
     );

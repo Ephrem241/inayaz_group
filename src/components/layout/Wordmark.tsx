@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
 
 // Interim geometric mark inspired by docs/brand-board.png's logo concept —
@@ -16,9 +19,13 @@ function LogoIcon() {
 }
 
 export function Wordmark({ className }: { className?: string }) {
+  const pathname = usePathname();
+
   return (
     <Link
       href="/"
+      aria-label="INAYAZ Group — Home"
+      aria-current={pathname === "/" ? "page" : undefined}
       className={cn(
         "flex items-center gap-2.5 font-heading leading-none tracking-tight",
         className,

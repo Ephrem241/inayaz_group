@@ -1,4 +1,5 @@
 import { SITE_URL } from "@/constants/site";
+import { company } from "@/constants/company";
 import type { Article } from "@/constants/articles";
 
 type ArticleJsonLdProps = {
@@ -21,8 +22,8 @@ export function ArticleJsonLd({ article }: ArticleJsonLdProps) {
     headline: article.title,
     description: article.excerpt,
     datePublished: article.publishedAt,
-    author: { "@type": "Organization", name: "INAYAZ Group" },
-    publisher: { "@type": "Organization", name: "INAYAZ Group" },
+    author: { "@type": "Organization", name: company.brandName },
+    publisher: { "@type": "Organization", name: company.brandName },
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
     ...(imageUrl ? { image: imageUrl } : {}),
   };

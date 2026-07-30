@@ -113,7 +113,7 @@ test.describe("Services page", () => {
     const section = page.locator("[data-services-cta-section]");
     await section.scrollIntoViewIfNeeded();
 
-    await expect(section.getByRole("link", { name: "Contact Us" })).toHaveAttribute(
+    await expect(section.getByRole("link", { name: "Discuss a Project" })).toHaveAttribute(
       "href",
       "/contact",
     );

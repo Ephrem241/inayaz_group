@@ -6,6 +6,7 @@ import type {
   SanityArticle,
   SanityDivision,
   SanityProject,
+  SanityRecognition,
   SanityService,
   SanitySiteSettings,
 } from "./types";
@@ -39,7 +40,9 @@ const projectFields = /* groq */ `
   "slug": slug.current,
   client, contractor, consultant, structureType, category, propertyType,
   location, status, startYear, completionYear, shortDescription, description,
-  heroImage${imageWithLqip}, gallery[]${imageWithLqip}, services, builtArea, units, featured, orderRank
+  heroImage${imageWithLqip}, gallery[]${imageWithLqip}, services, builtArea, units, featured, orderRank,
+  unitTypes, amenities, pricingNote, paymentPlanNote, salesContact,
+  "brochureUrl": brochure.asset->url
 `;
 
 const divisionFields = /* groq */ `
@@ -61,6 +64,17 @@ const articleFields = /* groq */ `
   title,
   "slug": slug.current,
   excerpt, content, coverImage${imageWithLqip}, category, author, publishedAt, featured
+`;
+
+// The logo is only ever selected when logoApproved is true — defense in
+// depth alongside the adapter-level check, so an unapproved logo asset
+// reference never even leaves the API response. evidenceFile is never
+// selected here at all, on any status — it has no public URL surfaced
+// anywhere on the site (see sanity/schemas/documents/recognition.ts).
+const recognitionFields = /* groq */ `
+  _id, name, eyebrow, description, status, logoApproved,
+  "logo": select(logoApproved == true => logo${imageWithLqip}, null),
+  orderRank
 `;
 
 export async function getProjects(filters: ProjectListFilters = {}): Promise<SanityProject[]> {
@@ -222,6 +236,22 @@ export async function getArticleBySlug(
   } catch (error) {
     console.error("[sanity] getArticleBySlug failed:", error);
     return null;
+  }
+}
+
+export async function getRecognitions(): Promise<SanityRecognition[]> {
+  try {
+    return await client.fetch(
+      /* groq */ `
+        *[_type == "recognition" && status == "published"]
+          | order(orderRank asc) { ${recognitionFields} }
+      `,
+      {},
+      { next: { tags: ["recognition"] } },
+    );
+  } catch (error) {
+    console.error("[sanity] getRecognitions failed:", error);
+    return [];
   }
 }
 

@@ -1,4 +1,5 @@
 import { SITE_URL } from "@/constants/site";
+import { company } from "@/constants/company";
 import type { SanitySiteSettings } from "../../../sanity/lib/types";
 
 type OrganizationJsonLdProps = {
@@ -17,7 +18,7 @@ export function OrganizationJsonLd({ settings }: OrganizationJsonLdProps) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "GeneralContractor",
-    name: "INAYAZ Group",
+    name: company.brandName,
     url: SITE_URL,
     email: settings.contactEmail,
     ...(settings.contactPhones?.[0] ? { telephone: settings.contactPhones[0] } : {}),

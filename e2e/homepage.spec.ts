@@ -52,4 +52,32 @@ test.describe("Homepage", () => {
     expect(response?.status()).toBe(404);
     await expect(page.getByText("Page Not Found")).toBeVisible();
   });
+
+  test("closing CTA links to Contact, not an embedded full form", async ({ page }) => {
+    // The homepage's final section is a compact CTA band (Phase C) — the
+    // full ContactForm lives exclusively on /contact now.
+    await page.goto("/");
+    const section = page.locator("[data-home-final-cta-section]");
+    await section.scrollIntoViewIfNeeded();
+
+    await expect(section.getByRole("link", { name: "Discuss a Project" })).toHaveAttribute(
+      "href",
+      "/contact",
+    );
+    await expect(section.locator("form")).toHaveCount(0);
+  });
+
+  test("mission, values, and recognition sections are not duplicated on the homepage", async ({
+    page,
+  }) => {
+    // These render in full on /about — removed from the homepage in Phase C
+    // to cut duplication (verified zero content loss against /about).
+    await page.goto("/");
+
+    await expect(page.getByRole("heading", { name: "Our Mission" })).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "What Guides Us" })).toHaveCount(0);
+    await expect(
+      page.getByRole("heading", { name: "Credentials and Institutional Relationships" }),
+    ).toHaveCount(0);
+  });
 });

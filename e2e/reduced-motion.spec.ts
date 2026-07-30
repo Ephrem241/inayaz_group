@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { YEARS_OF_EXPERIENCE } from "../src/constants/metrics";
 
 test.describe("Reduced motion", () => {
   test.use({ contextOptions: { reducedMotion: "reduce" } });
@@ -91,11 +92,23 @@ test.describe("Reduced motion", () => {
     );
   });
 
-  test("confirmed metric shows its final value immediately with no count-up", async ({ page }) => {
+  test("published metrics count up with no animation when present, or fall back to a static facts strip", async ({
+    page,
+  }) => {
     await page.goto("/");
 
-    const value = page.locator('[data-metric="years-of-experience"] [data-metric-value]');
-    await value.scrollIntoViewIfNeeded();
-    await expect(value).toHaveText("11");
+    // Only one metric ("years-of-experience") is published today, which is
+    // below the 3-metric threshold for showing the AnimatedMetric grid at
+    // all — the homepage falls back to a plain-text confirmed-facts strip
+    // instead, so there's no counter to verify has skipped its animation.
+    // Assert whichever state is actually live, rather than assuming the
+    // grid renders.
+    const metricValue = page.locator('[data-metric="years-of-experience"] [data-metric-value]');
+    if (await metricValue.count()) {
+      await metricValue.scrollIntoViewIfNeeded();
+      await expect(metricValue).toHaveText(String(YEARS_OF_EXPERIENCE));
+    } else {
+      await expect(page.getByText(`${YEARS_OF_EXPERIENCE} Years of Experience`)).toBeVisible();
+    }
   });
 });

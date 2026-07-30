@@ -1,4 +1,12 @@
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.inayazgroup.com";
+// Falls back to the Vercel preview/production URL until a custom domain
+// (www.inayazgroup.com) is configured and set via NEXT_PUBLIC_SITE_URL —
+// changing the domain later is then a one-line env var change, no code edit.
+// `|| ""` (not `??`) so an accidentally-blank env var also falls back rather
+// than resolving to an empty string.
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://inayaz-group.vercel.app").replace(
+  /\/$/,
+  "",
+);
 
 // The site's only current hero/social image — no dedicated branded 1200×630
 // share image exists yet (Step 29b lists a real logo/OG asset as still

@@ -1,6 +1,19 @@
 import Link from "next/link";
 import { NAV_ITEMS } from "@/constants/navigation";
 import { Wordmark } from "@/components/layout/Wordmark";
+import { company } from "@/constants/company";
+import { TrackedAnchor } from "@/components/analytics/TrackedAnchor";
+
+function telHref(phone: string): string {
+  return `tel:${phone.replace(/[^+\d]/g, "")}`;
+}
+
+const LEGAL_LINKS = [
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms of Service", href: "/terms" },
+  { label: "Cookie Policy", href: "/cookies" },
+  { label: "Accessibility", href: "/accessibility" },
+];
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -31,33 +44,53 @@ export function Footer() {
 
         <address className="not-italic">
           <p className="text-sm text-muted">
-            ZULYEKA Building
+            {company.address.line1}
             <br />
-            6th Floor, Office 603
+            {company.address.line2}
             <br />
-            Addis Ababa, Ethiopia
+            {company.address.line3}
           </p>
           <p className="mt-4 text-sm">
-            <a href="mailto:info@inayazgroup.com" className="text-muted hover:text-primary">
-              info@inayazgroup.com
-            </a>
+            <TrackedAnchor
+              href={`mailto:${company.email}`}
+              event="email_click"
+              eventProps={{ source: "footer" }}
+              className="text-muted hover:text-primary"
+            >
+              {company.email}
+            </TrackedAnchor>
           </p>
           <p className="mt-2 text-sm">
-            <a href="tel:+251973223312" className="text-muted hover:text-primary">
-              +251 973 223 312
-            </a>
-            <br />
-            <a href="tel:+251968666664" className="text-muted hover:text-primary">
-              +251 968 666 664
-            </a>
+            {company.phones.map((phone, index) => (
+              <span key={phone}>
+                <TrackedAnchor
+                  href={telHref(phone)}
+                  event="phone_click"
+                  eventProps={{ source: "footer" }}
+                  className="text-muted hover:text-primary"
+                >
+                  {phone}
+                </TrackedAnchor>
+                {index < company.phones.length - 1 && <br />}
+              </span>
+            ))}
           </p>
           {/* Future: add verified INAYAZ social links here once confirmed live */}
         </address>
       </div>
 
       <div className="border-t border-white/10">
-        <div className="container-wide py-6 text-xs text-muted-foreground">
-          © {year} INAYAZ Construction and Material Import Export. All rights reserved.
+        <div className="container-wide flex flex-col gap-4 py-6 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between">
+          <p>
+            © {year} {company.legalName}. All rights reserved.
+          </p>
+          <nav aria-label="Legal" className="flex flex-wrap gap-x-6 gap-y-2">
+            {LEGAL_LINKS.map((item) => (
+              <Link key={item.href} href={item.href} className="hover:text-primary">
+                {item.label}
+              </Link>
+            ))}
+          </nav>
         </div>
       </div>
     </footer>

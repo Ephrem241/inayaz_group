@@ -134,6 +134,46 @@ export const project = defineType({
       type: "number",
       description: "Manual sort key — lower numbers sort first. Optional.",
     }),
+    // --- Real Estate detail fields (Phase D, production fix pass) ---
+    // All optional and hidden cleanly on the frontend when unset — no field
+    // here is ever fabricated a default value. These power /real-estate,
+    // the buyer-facing presentation of the same project documents used by
+    // /projects (the contractor/GC-1-facing presentation).
+    defineField({
+      name: "unitTypes",
+      title: "Unit types",
+      type: "array",
+      of: [{ type: "string" }],
+      description: 'e.g. "Studio", "1 Bedroom", "3 Bedroom Penthouse". Leave empty until confirmed.',
+    }),
+    defineField({
+      name: "amenities",
+      type: "array",
+      of: [{ type: "string" }],
+      description: "Leave empty until confirmed.",
+    }),
+    defineField({
+      name: "pricingNote",
+      type: "string",
+      description: 'e.g. "Starting from $120,000". Leave empty to show "Contact for pricing".',
+    }),
+    defineField({
+      name: "paymentPlanNote",
+      type: "text",
+      rows: 3,
+      description: "Leave empty if no payment plan is being offered.",
+    }),
+    defineField({
+      name: "brochure",
+      title: "Brochure (PDF)",
+      type: "file",
+      description: "Leave empty until a downloadable brochure exists for this development.",
+    }),
+    defineField({
+      name: "salesContact",
+      type: "string",
+      description: "Optional dedicated sales phone/email for this development. Falls back to the general contact info if empty.",
+    }),
   ],
   preview: {
     select: {

@@ -5,6 +5,7 @@ import {
   adaptDivision,
   adaptMetrics,
   adaptProject,
+  adaptRecognition,
   adaptService,
   resolveIcon,
 } from "./adapters";
@@ -14,6 +15,7 @@ import type {
   SanityDivision,
   SanityImage,
   SanityProject,
+  SanityRecognition,
   SanityService,
   SanitySiteSettings,
 } from "./types";
@@ -160,6 +162,62 @@ describe("adaptProject", () => {
     expect(result.client).toBe("");
     expect(result.structure).toBe("");
   });
+
+  it("converts unset status/completionYear/builtArea/units to null, never fabricating a value", () => {
+    const result = adaptProject(sanityProject);
+    expect(result.status).toBeNull();
+    expect(result.completionYear).toBeNull();
+    expect(result.builtArea).toBeNull();
+    expect(result.units).toBeNull();
+  });
+
+  it("surfaces status/completionYear/builtArea/units once set in Sanity", () => {
+    const result = adaptProject({
+      ...sanityProject,
+      status: "Ongoing",
+      completionYear: 2027,
+      builtArea: "12,400 m²",
+      units: 220,
+    });
+    expect(result.status).toBe("Ongoing");
+    expect(result.completionYear).toBe(2027);
+    expect(result.builtArea).toBe("12,400 m²");
+    expect(result.units).toBe(220);
+  });
+
+  it("defaults gallery to an empty array and services to null when unset", () => {
+    const result = adaptProject(sanityProject);
+    expect(result.gallery).toEqual([]);
+    expect(result.services).toBeNull();
+  });
+
+  it("defaults every real-estate detail field to null when unset", () => {
+    const result = adaptProject(sanityProject);
+    expect(result.unitTypes).toBeNull();
+    expect(result.amenities).toBeNull();
+    expect(result.pricingNote).toBeNull();
+    expect(result.paymentPlanNote).toBeNull();
+    expect(result.brochureUrl).toBeNull();
+    expect(result.salesContact).toBeNull();
+  });
+
+  it("surfaces real-estate detail fields once set in Sanity", () => {
+    const result = adaptProject({
+      ...sanityProject,
+      unitTypes: ["Studio", "2 Bedroom"],
+      amenities: ["Rooftop terrace", "Underground parking"],
+      pricingNote: "Starting from $120,000",
+      paymentPlanNote: "30% down, balance over 24 months.",
+      brochureUrl: "https://cdn.sanity.io/files/x/y/brochure.pdf",
+      salesContact: "sales@inayazgroup.com",
+    });
+    expect(result.unitTypes).toEqual(["Studio", "2 Bedroom"]);
+    expect(result.amenities).toEqual(["Rooftop terrace", "Underground parking"]);
+    expect(result.pricingNote).toBe("Starting from $120,000");
+    expect(result.paymentPlanNote).toBe("30% down, balance over 24 months.");
+    expect(result.brochureUrl).toBe("https://cdn.sanity.io/files/x/y/brochure.pdf");
+    expect(result.salesContact).toBe("sales@inayazgroup.com");
+  });
 });
 
 describe("adaptArticle", () => {
@@ -207,37 +265,36 @@ describe("adaptMetrics", () => {
     _id: "siteSettings",
     contactEmail: "info@inayazgroup.com",
     homepageMetrics: [
-      { id: "years-of-experience", label: "Years of Experience", confirmed: true, value: 11 },
-      { id: "completed-projects", label: "Completed Projects", confirmed: false },
+      { id: "years-of-experience", label: "Years of Experience", status: "published", value: 11 },
+      { id: "completed-projects", label: "Completed Projects", status: "draft" },
+      { id: "active-developments", label: "Active Developments", status: "verified" },
     ],
   };
 
-  it("maps a confirmed metric to the confirmed status shape", () => {
+  it("maps a published metric with a value to the frontend shape", () => {
     const result = adaptMetrics(settings);
-    expect(result[0]).toEqual({
-      id: "years-of-experience",
-      label: "Years of Experience",
-      status: "confirmed",
-      value: 11,
-      suffix: undefined,
-    });
+    expect(result).toEqual([
+      {
+        id: "years-of-experience",
+        label: "Years of Experience",
+        value: 11,
+        suffix: undefined,
+      },
+    ]);
   });
 
-  it("maps an unconfirmed metric to the pending status shape, never fabricating a value", () => {
+  it("excludes draft and verified metrics entirely — never a placeholder, never rendered", () => {
     const result = adaptMetrics(settings);
-    expect(result[1]).toEqual({
-      id: "completed-projects",
-      label: "Completed Projects",
-      status: "pending",
-    });
+    expect(result.find((metric) => metric.id === "completed-projects")).toBeUndefined();
+    expect(result.find((metric) => metric.id === "active-developments")).toBeUndefined();
   });
 
-  it("treats a confirmed metric with no value as pending rather than crashing", () => {
+  it("excludes a published metric that has no value rather than crashing", () => {
     const result = adaptMetrics({
       ...settings,
-      homepageMetrics: [{ id: "x", label: "X", confirmed: true }],
+      homepageMetrics: [{ id: "x", label: "X", status: "published" }],
     });
-    expect(result[0].status).toBe("pending");
+    expect(result).toEqual([]);
   });
 
   it("returns an empty array when settings is null", () => {
@@ -246,5 +303,42 @@ describe("adaptMetrics", () => {
 
   it("returns an empty array when homepageMetrics is undefined", () => {
     expect(adaptMetrics({ ...settings, homepageMetrics: undefined })).toEqual([]);
+  });
+});
+
+describe("adaptRecognition", () => {
+  const base: SanityRecognition = {
+    _id: "recognition-gc1",
+    name: "Category 1 General Contractor (GC-1)",
+    eyebrow: "Industry Classification",
+    description: "As a Category 1 General Contractor...",
+    status: "published",
+    logoApproved: false,
+  };
+
+  it("maps a published item with no logo", () => {
+    const result = adaptRecognition(base);
+    expect(result).toEqual({
+      id: "recognition-gc1",
+      eyebrow: "Industry Classification",
+      name: "Category 1 General Contractor (GC-1)",
+      description: "As a Category 1 General Contractor...",
+      logo: undefined,
+    });
+  });
+
+  it("omits the logo when logoApproved is false, even if a logo image exists", () => {
+    const result = adaptRecognition({ ...base, logoApproved: false, logo: image("CBE logo") });
+    expect(result.logo).toBeUndefined();
+  });
+
+  it("includes the logo only when logoApproved is true and a logo image exists", () => {
+    const result = adaptRecognition({ ...base, logoApproved: true, logo: image("GC-1 mark") });
+    expect(result.logo?.alt).toBe("GC-1 mark");
+  });
+
+  it("falls back to an empty eyebrow when unset", () => {
+    const result = adaptRecognition({ ...base, eyebrow: undefined });
+    expect(result.eyebrow).toBe("");
   });
 });

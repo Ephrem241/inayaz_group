@@ -6,11 +6,8 @@ import { FeaturedProjects } from "@/components/sections/FeaturedProjects";
 import { ConstructionProcess } from "@/components/sections/ConstructionProcess";
 import { Metrics } from "@/components/sections/Metrics";
 import { WhyChooseInayaz } from "@/components/sections/WhyChooseInayaz";
-import { MissionVision } from "@/components/sections/MissionVision";
-import { CoreValues } from "@/components/sections/CoreValues";
-import { RecognitionAndTrust } from "@/components/sections/RecognitionAndTrust";
 import { Sustainability } from "@/components/sections/Sustainability";
-import { Contact } from "@/components/sections/Contact";
+import { HomeFinalCTA } from "@/components/sections/HomeFinalCTA";
 import { getDivisions, getProjects, getSiteSettings } from "../../../sanity/lib/queries";
 import { adaptDivision, adaptMetrics, adaptProject } from "../../../sanity/lib/adapters";
 
@@ -36,16 +33,13 @@ export default async function HomePage() {
     <>
       <CinematicHero />
       <CompanyIntroduction />
+      <Metrics metrics={metrics} />
       <BusinessDivisions divisions={divisions} />
       <FeaturedProjects projects={projects} />
       <ConstructionProcess />
-      <Metrics metrics={metrics} />
       <WhyChooseInayaz />
-      <MissionVision />
-      <CoreValues />
-      <RecognitionAndTrust />
-      <Sustainability />
-      <Contact />
+      <Sustainability variant="preview" />
+      <HomeFinalCTA />
     </>
   );
 }

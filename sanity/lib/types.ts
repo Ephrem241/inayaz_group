@@ -50,6 +50,14 @@ export type SanityProject = {
   units?: number;
   featured: boolean;
   orderRank?: number;
+  // Real Estate detail fields (Phase D) — all optional, all hidden on the
+  // frontend when unset.
+  unitTypes?: string[];
+  amenities?: string[];
+  pricingNote?: string;
+  paymentPlanNote?: string;
+  brochureUrl?: string;
+  salesContact?: string;
 };
 
 export type SanityDivision = {
@@ -90,6 +98,8 @@ export type SanityArticle = {
   featured: boolean;
 };
 
+export type MetricStatus = "draft" | "verified" | "published";
+
 export type SanitySiteSettings = {
   _id: string;
   contactEmail: string;
@@ -99,13 +109,24 @@ export type SanitySiteSettings = {
   homepageMetrics?: {
     id: string;
     label: string;
-    confirmed: boolean;
+    status: MetricStatus;
     value?: number;
     suffix?: string;
   }[];
   footerTagline?: string;
   footerDescription?: string;
   featuredProjects?: SanityProject[];
+};
+
+export type SanityRecognition = {
+  _id: string;
+  name: string;
+  eyebrow?: string;
+  description: string;
+  status: MetricStatus;
+  logoApproved: boolean;
+  logo?: SanityImage;
+  orderRank?: number;
 };
 
 export type ProjectListFilters = {

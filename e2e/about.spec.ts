@@ -47,7 +47,12 @@ test.describe("About page", () => {
     await expect(page.getByText("Our Vision", { exact: true })).toBeVisible();
     await expect(page.getByRole("heading", { name: "What Guides Us" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Built for Confidence" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Earned, Not Assumed" })).toBeVisible();
+    // Only GC-1 is published by default (CBE/COOP are hidden until real
+    // evidence lands), which is fewer than 2 — RecognitionAndTrust uses its
+    // neutral heading rather than "Recognition & Trust" framing.
+    await expect(
+      page.getByRole("heading", { name: "Credentials and Institutional Relationships" }),
+    ).toBeVisible();
   });
 
   test("closing CTA links to Contact", async ({ page }) => {
@@ -55,7 +60,7 @@ test.describe("About page", () => {
     const section = page.locator("[data-about-cta-section]");
     await section.scrollIntoViewIfNeeded();
 
-    await expect(section.getByRole("link", { name: "Contact Us" })).toHaveAttribute(
+    await expect(section.getByRole("link", { name: "Discuss a Project" })).toHaveAttribute(
       "href",
       "/contact",
     );

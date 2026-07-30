@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { gsap, ScrollTrigger } from "@/lib/motion/gsap";
 import { useReducedMotionContext } from "@/components/motion/ReducedMotionProvider";
+import { trackCta } from "@/lib/analytics/track";
 
 export function CinematicHero() {
   const heroRef = useRef<HTMLElement>(null);
@@ -144,6 +145,7 @@ export function CinematicHero() {
       <div className="container-content relative z-10 flex h-full flex-col justify-center text-off-white">
         <p
           ref={eyebrowRef}
+          data-motion-initial
           className="text-sm font-medium tracking-[0.3em] text-primary uppercase opacity-0"
         >
           INAYAZ Group
@@ -151,6 +153,7 @@ export function CinematicHero() {
 
         <h1
           ref={headlineRef}
+          data-motion-initial
           className="mt-6 max-w-3xl text-5xl leading-tight md:text-7xl"
           style={{ clipPath: "inset(0 0 100% 0)" }}
         >
@@ -159,17 +162,29 @@ export function CinematicHero() {
           Creating Lasting Value.
         </h1>
 
-        <p ref={subtextRef} className="mt-6 max-w-xl text-base text-off-white/85 opacity-0">
+        <p
+          ref={subtextRef}
+          data-motion-initial
+          className="mt-6 max-w-xl text-base text-off-white/85 opacity-0"
+        >
           A diversified Ethiopian business group delivering construction, real estate,
           manufacturing, import, export, travel, and equipment solutions with precision,
           integrity, and long-term responsibility.
         </p>
 
-        <div ref={ctaRef} className="mt-10 flex flex-wrap gap-4 opacity-0">
-          <Link href="/projects" className="btn btn-primary">
+        <div ref={ctaRef} data-motion-initial className="mt-10 flex flex-wrap gap-4 opacity-0">
+          <Link
+            href="/projects"
+            className="btn btn-primary"
+            onClick={() => trackCta("hero_explore_projects")}
+          >
             Explore Our Projects
           </Link>
-          <Link href="/about" className="btn btn-outline">
+          <Link
+            href="/about"
+            className="btn btn-outline"
+            onClick={() => trackCta("hero_discover_inayaz")}
+          >
             Discover INAYAZ
           </Link>
         </div>
@@ -177,6 +192,7 @@ export function CinematicHero() {
 
       <div
         ref={scrollIndicatorRef}
+        data-motion-initial
         className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-off-white/70 opacity-0"
         aria-hidden="true"
       >

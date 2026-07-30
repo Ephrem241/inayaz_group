@@ -17,11 +17,28 @@ export const contactSubmission = defineType({
     defineField({ name: "email", type: "string", readOnly: true, validation: (Rule) => Rule.required().email() }),
     defineField({ name: "phone", type: "string", readOnly: true }),
     defineField({ name: "serviceInterest", type: "string", readOnly: true }),
+    // Construction fields (serviceInterest === "construction-real-estate")
     defineField({ name: "projectType", type: "string", readOnly: true }),
     defineField({ name: "estimatedBudget", type: "string", readOnly: true }),
     defineField({ name: "projectLocation", type: "string", readOnly: true }),
+    defineField({ name: "targetStartDate", type: "string", readOnly: true }),
+    // Real Estate fields (serviceInterest === "real-estate")
+    defineField({ name: "developmentInterest", type: "string", readOnly: true }),
+    defineField({ name: "preferredUnitType", type: "string", readOnly: true }),
+    defineField({ name: "visitDate", type: "string", readOnly: true }),
+    defineField({ name: "preferredContactMethod", type: "string", readOnly: true }),
+    // Machinery Rental fields (serviceInterest === "machinery-equipment-rental")
+    defineField({ name: "equipmentType", type: "string", readOnly: true }),
+    defineField({ name: "rentalPeriod", type: "string", readOnly: true }),
+    defineField({ name: "rentalLocation", type: "string", readOnly: true }),
+    defineField({ name: "requiredDate", type: "string", readOnly: true }),
     defineField({ name: "message", type: "text", rows: 4, readOnly: true, validation: (Rule) => Rule.required() }),
     defineField({ name: "consent", type: "boolean", readOnly: true }),
+    // Lead attribution, captured client-side from URL query params on mount.
+    defineField({ name: "utmSource", type: "string", readOnly: true }),
+    defineField({ name: "utmMedium", type: "string", readOnly: true }),
+    defineField({ name: "utmCampaign", type: "string", readOnly: true }),
+    defineField({ name: "leadSource", type: "string", readOnly: true, description: "Referrer URL, or \"direct\"." }),
     defineField({
       name: "status",
       type: "string",

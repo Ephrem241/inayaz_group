@@ -1,17 +1,30 @@
+import Link from "next/link";
 import Image from "next/image";
 import { MotionSection } from "@/components/motion/MotionSection";
 import { MaskRevealImage } from "@/components/motion/MaskRevealImage";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { SUSTAINABILITY_TOPICS } from "@/constants/sustainability";
+import { cn } from "@/lib/utils/cn";
+
+const PREVIEW_TOPIC_COUNT = 3;
 
 type SustainabilityProps = {
   // "h2" when embedded on the homepage (which already has its own h1 in the
   // hero); the dedicated /sustainability page passes "h1" since this is the
   // only heading on that page — every page needs exactly one h1.
   headingLevel?: "h1" | "h2";
+  // "preview" (homepage): a subset of topics plus an "Explore Sustainability"
+  // CTA to the full page. "full" (the dedicated /sustainability page): every
+  // topic, no CTA needed since the visitor is already there.
+  variant?: "full" | "preview";
 };
 
-export function Sustainability({ headingLevel = "h2" }: SustainabilityProps = {}) {
+export function Sustainability({
+  headingLevel = "h2",
+  variant = "full",
+}: SustainabilityProps = {}) {
   const Heading = headingLevel;
+  const topics = variant === "preview" ? SUSTAINABILITY_TOPICS.slice(0, PREVIEW_TOPIC_COUNT) : SUSTAINABILITY_TOPICS;
 
   return (
     <section
@@ -19,7 +32,16 @@ export function Sustainability({ headingLevel = "h2" }: SustainabilityProps = {}
       className="bg-warm-stone text-architectural-charcoal py-16 md:py-24 lg:py-32"
     >
       <div className="container-content">
-        <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-16">
+        {headingLevel === "h1" && (
+          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Sustainability" }]} />
+        )}
+
+        <div
+          className={cn(
+            "grid items-start gap-12 lg:grid-cols-12 lg:gap-16",
+            headingLevel === "h1" && "mt-6",
+          )}
+        >
           <div className="lg:col-span-7">
             <MotionSection y={16}>
               <p className="text-sm font-medium tracking-[0.2em] text-construction-gold-accessible uppercase">
@@ -30,7 +52,7 @@ export function Sustainability({ headingLevel = "h2" }: SustainabilityProps = {}
 
             <MotionSection y={16} delay={0.1} className="mt-12 lg:mt-16">
               <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2">
-                {SUSTAINABILITY_TOPICS.map((topic) => (
+                {topics.map((topic) => (
                   <div
                     key={topic.id}
                     data-sustainability-topic={topic.id}
@@ -47,6 +69,14 @@ export function Sustainability({ headingLevel = "h2" }: SustainabilityProps = {}
                 ))}
               </div>
             </MotionSection>
+
+            {variant === "preview" && (
+              <MotionSection y={16} delay={0.15} className="mt-10">
+                <Link href="/sustainability" className="btn btn-outline">
+                  Explore Sustainability
+                </Link>
+              </MotionSection>
+            )}
           </div>
 
           <div className="lg:col-span-5">

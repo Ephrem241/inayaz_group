@@ -41,7 +41,7 @@ export function AnimatedMetric({ id, value, suffix, label }: AnimatedMetricProps
   }, [reducedMotion, value]);
 
   return (
-    <div data-metric={id} data-metric-status="confirmed">
+    <div data-metric={id}>
       <p className="text-5xl text-construction-gold md:text-6xl">
         <span ref={numberRef} data-metric-value aria-hidden="true">
           0

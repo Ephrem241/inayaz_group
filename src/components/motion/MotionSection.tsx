@@ -44,7 +44,12 @@ export function MotionSection({ children, y = 24, delay = 0, className }: Motion
   }, [reducedMotion, y, delay]);
 
   return (
-    <div ref={elementRef} data-motion-section className={cn("opacity-0", className)}>
+    <div
+      ref={elementRef}
+      data-motion-section
+      data-motion-initial
+      className={cn("opacity-0", className)}
+    >
       {children}
     </div>
   );

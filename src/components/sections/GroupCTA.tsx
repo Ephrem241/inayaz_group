@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { MotionSection } from "@/components/motion/MotionSection";
 import { PRIMARY_CTA } from "@/constants/navigation";
+import { TrackedLink } from "@/components/analytics/TrackedLink";
 
 export function GroupCTA() {
   return (
@@ -15,9 +15,14 @@ export function GroupCTA() {
             Whichever division fits your project, our team is ready to talk
             through the details.
           </p>
-          <Link href={PRIMARY_CTA.href} className="btn btn-primary mt-8 inline-flex">
+          <TrackedLink
+            href={PRIMARY_CTA.href}
+            event="start_conversation"
+            eventProps={{ source: "group_cta" }}
+            className="btn btn-primary mt-8 inline-flex"
+          >
             {PRIMARY_CTA.label}
-          </Link>
+          </TrackedLink>
         </MotionSection>
       </div>
     </section>

@@ -103,4 +103,47 @@ describe("contactFormSchema", () => {
       expect(result.data.fullName).toBe("Jane Doe");
     }
   });
+
+  it("accepts the distinct 'real-estate' serviceInterest value alongside real-estate fields", () => {
+    const result = contactFormSchema.safeParse({
+      ...validPayload,
+      serviceInterest: "real-estate",
+      developmentInterest: "Ameliyaz",
+      preferredUnitType: "2 Bedroom",
+      visitDate: "2026-08-01",
+      preferredContactMethod: "Phone",
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects a preferredContactMethod value outside Email/Phone", () => {
+    const result = contactFormSchema.safeParse({
+      ...validPayload,
+      preferredContactMethod: "WhatsApp",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("accepts machinery-rental fields alongside the rental serviceInterest", () => {
+    const result = contactFormSchema.safeParse({
+      ...validPayload,
+      serviceInterest: "machinery-equipment-rental",
+      equipmentType: "Excavator",
+      rentalPeriod: "2 weeks",
+      rentalLocation: "Addis Ababa",
+      requiredDate: "2026-09-01",
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("accepts UTM/lead-source fields without requiring them", () => {
+    const result = contactFormSchema.safeParse({
+      ...validPayload,
+      utmSource: "google",
+      utmMedium: "cpc",
+      utmCampaign: "spring-launch",
+      leadSource: "https://google.com/",
+    });
+    expect(result.success).toBe(true);
+  });
 });

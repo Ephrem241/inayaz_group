@@ -65,40 +65,43 @@ export function ProjectHero({ project }: ProjectHeroProps) {
                 <dd className="inline">{project.location}</dd>
               </div>
             )}
-            {/* Status, completion year, built area, and unit counts are not
-                yet client-confirmed (CLAUDE.md Phase 16 lists all four under
-                "Still confirm before production launch") — rendered honestly
-                as pending rather than inferred from hedged third-party hints. */}
-            <div>
-              <dt className="inline font-medium">Status: </dt>
-              <dd data-pending-field="status" className="inline italic text-muted-foreground/70">
-                Pending confirmation
-              </dd>
-            </div>
-            <div>
-              <dt className="inline font-medium">Completion Year: </dt>
-              <dd
-                data-pending-field="completion-year"
-                className="inline italic text-muted-foreground/70"
-              >
-                Pending confirmation
-              </dd>
-            </div>
-            <div>
-              <dt className="inline font-medium">Built Area: </dt>
-              <dd
-                data-pending-field="built-area"
-                className="inline italic text-muted-foreground/70"
-              >
-                Pending confirmation
-              </dd>
-            </div>
-            <div>
-              <dt className="inline font-medium">Units: </dt>
-              <dd data-pending-field="units" className="inline italic text-muted-foreground/70">
-                Pending confirmation
-              </dd>
-            </div>
+            {/* Status, completion year, built area, and unit counts render
+                only once client-confirmed in Sanity — none are fabricated
+                or shown as a placeholder; the field is simply omitted until
+                real data exists (CLAUDE.md Phase 16 lists all four under
+                "Still confirm before production launch"). */}
+            {project.status && (
+              <div>
+                <dt className="inline font-medium">Status: </dt>
+                <dd data-field="status" className="inline">
+                  {project.status}
+                </dd>
+              </div>
+            )}
+            {project.completionYear && (
+              <div>
+                <dt className="inline font-medium">Completion Year: </dt>
+                <dd data-field="completion-year" className="inline">
+                  {project.completionYear}
+                </dd>
+              </div>
+            )}
+            {project.builtArea && (
+              <div>
+                <dt className="inline font-medium">Built Area: </dt>
+                <dd data-field="built-area" className="inline">
+                  {project.builtArea}
+                </dd>
+              </div>
+            )}
+            {project.units && (
+              <div>
+                <dt className="inline font-medium">Units: </dt>
+                <dd data-field="units" className="inline">
+                  {project.units}
+                </dd>
+              </div>
+            )}
           </dl>
 
           <p className="mt-6 max-w-2xl text-base text-muted-foreground">{project.description}</p>

@@ -1,9 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
 import { cn } from "@/lib/utils/cn";
 import type { Division } from "@/constants/divisions";
 import type { Project } from "@/constants/projects";
 import { ProjectCard } from "@/components/projects/ProjectCard";
+import { TrackedLink } from "@/components/analytics/TrackedLink";
+import { DIVISION_CTA } from "@/constants/division-cta";
 
 type DivisionDetailProps = {
   division: Division;
@@ -67,12 +68,14 @@ export function DivisionDetail({ division, relatedProjects, index }: DivisionDet
           </div>
         )}
 
-        <Link
-          href="/contact"
+        <TrackedLink
+          href={`/contact?interest=${division.id}`}
+          event={DIVISION_CTA[division.id]?.event ?? "start_conversation"}
+          eventProps={{ division: division.id }}
           className="mt-6 inline-flex text-sm font-medium text-foreground underline decoration-construction-gold underline-offset-4 transition-colors hover:text-construction-gold-accessible"
         >
-          Discuss a {division.name} Project
-        </Link>
+          {DIVISION_CTA[division.id]?.label ?? `Discuss a ${division.name} Project`}
+        </TrackedLink>
       </div>
     </div>
   );

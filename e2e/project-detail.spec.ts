@@ -37,24 +37,21 @@ test.describe("Project detail page", () => {
     await expect(goldSouqSection.getByText("Consultant:")).toHaveCount(0);
   });
 
-  test("status, completion year, built area, and units always render as pending, never fabricated", async ({
+  test("status, completion year, built area, and units are omitted (not fabricated) while unconfirmed", async ({
     page,
   }) => {
+    // None of these are client-confirmed for any current project — the
+    // fields are hidden entirely rather than shown as a placeholder
+    // (Phase D production fix pass superseded the earlier "Pending
+    // confirmation" label for this specific dl).
     for (const slug of ["ameliyaz", "tes-realty"]) {
       await page.goto(`/projects/${slug}`);
       const section = page.locator("[data-project-detail-section]");
-      await expect(section.locator('[data-pending-field="status"]')).toHaveText(
-        "Pending confirmation",
-      );
-      await expect(section.locator('[data-pending-field="completion-year"]')).toHaveText(
-        "Pending confirmation",
-      );
-      await expect(section.locator('[data-pending-field="built-area"]')).toHaveText(
-        "Pending confirmation",
-      );
-      await expect(section.locator('[data-pending-field="units"]')).toHaveText(
-        "Pending confirmation",
-      );
+      await expect(section.locator('[data-field="status"]')).toHaveCount(0);
+      await expect(section.locator('[data-field="completion-year"]')).toHaveCount(0);
+      await expect(section.locator('[data-field="built-area"]')).toHaveCount(0);
+      await expect(section.locator('[data-field="units"]')).toHaveCount(0);
+      await expect(section.getByText("Pending confirmation")).toHaveCount(0);
     }
   });
 
@@ -134,7 +131,7 @@ test.describe("Project detail page", () => {
     const section = page.locator("[data-project-cta-section]");
     await section.scrollIntoViewIfNeeded();
 
-    await expect(section.getByRole("link", { name: "Contact Us" })).toHaveAttribute(
+    await expect(section.getByRole("link", { name: "Discuss a Project" })).toHaveAttribute(
       "href",
       "/contact",
     );

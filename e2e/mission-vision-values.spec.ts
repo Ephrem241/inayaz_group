@@ -3,7 +3,10 @@ import { MISSION_STATEMENT, VISION_STATEMENT, CORE_VALUES } from "../src/constan
 
 test.describe("Mission, Vision, and Values", () => {
   test("mission and vision statements render verbatim", async ({ page }) => {
-    await page.goto("/");
+    // Lives only on /about since Phase C's homepage restructure — the
+    // homepage no longer duplicates this section (it was rendered in full,
+    // verbatim, on /about already).
+    await page.goto("/about");
 
     const mission = page.getByText(MISSION_STATEMENT, { exact: true });
     await mission.scrollIntoViewIfNeeded();
@@ -14,7 +17,10 @@ test.describe("Mission, Vision, and Values", () => {
   });
 
   test("all five core value names render", async ({ page }) => {
-    await page.goto("/");
+    // Lives only on /about since Phase C's homepage restructure — the
+    // homepage no longer duplicates this section (it was rendered in full,
+    // verbatim, on /about already).
+    await page.goto("/about");
 
     for (const value of CORE_VALUES) {
       const heading = page.getByRole("heading", { name: value.name, exact: true });

@@ -1,9 +1,11 @@
 import Link from "next/link";
-import { Quote } from "lucide-react";
 import { MotionSection } from "@/components/motion/MotionSection";
 import { MaskRevealImage } from "@/components/motion/MaskRevealImage";
-import { MEANING_OF_INAYAZ } from "@/constants/mission-vision-values";
 
+// Trimmed to a ≤2-sentence purpose statement for the homepage's "credibility
+// summary" step — the full brand story (meaning of INAYAZ, founding quote,
+// timeline) already renders in full on /about's AboutIntro, so repeating it
+// here was pure duplication rather than a preview.
 export function CompanyIntroduction() {
   return (
     <section data-company-introduction-section className="section-light py-16 md:py-24 lg:py-32">
@@ -22,38 +24,14 @@ export function CompanyIntroduction() {
             <MotionSection delay={0.1}>
               <p className="mt-6 max-w-xl text-base text-muted-foreground">
                 Since 2015, INAYAZ has grown into a diversified Ethiopian business group
-                built on care, technical excellence, professional responsibility, and
-                disciplined execution.
-              </p>
-              <p className="mt-4 max-w-xl text-base text-muted-foreground">
-                From complex high-rise developments to international trade and
-                manufacturing, every INAYAZ business is guided by one shared principle:
-                deliver lasting value while protecting the interests of clients,
-                partners, employees, and communities.
+                built on care, technical excellence, and disciplined execution. From
+                high-rise construction to international trade and manufacturing, every
+                INAYAZ business is guided by one principle: deliver lasting value while
+                protecting the interests of clients, partners, and communities.
               </p>
             </MotionSection>
 
             <MotionSection delay={0.15}>
-              <blockquote className="mt-10 border-l-2 border-construction-gold pl-6">
-                <Quote className="h-6 w-6 text-construction-gold-accessible" aria-hidden="true" />
-                <p className="mt-3 text-2xl leading-snug text-foreground md:text-3xl">
-                  {MEANING_OF_INAYAZ}
-                </p>
-              </blockquote>
-            </MotionSection>
-
-            <MotionSection delay={0.2}>
-              <div className="mt-10 flex items-center gap-4">
-                <div className="h-2 w-2 rounded-full bg-construction-gold" />
-                <div className="h-px flex-1 bg-construction-gold/30" />
-                <span className="text-sm tracking-wide text-muted-foreground">Present</span>
-              </div>
-              <p className="mt-2 text-sm text-muted-foreground">
-                2015 — Founded. Operating continuously since.
-              </p>
-            </MotionSection>
-
-            <MotionSection delay={0.25}>
               <Link href="/about" className="btn btn-outline mt-10 inline-flex">
                 About INAYAZ
               </Link>

@@ -33,9 +33,11 @@ export function ProjectCard({ project, showDetails = false }: ProjectCardProps) 
             <p className="mt-2 text-sm text-muted-foreground">{project.location}</p>
           )}
           <p className="mt-2 text-sm text-muted-foreground">{project.description}</p>
-          <p data-pending-note className="mt-2 text-xs text-muted-foreground italic">
-            Status: Pending confirmation
-          </p>
+          {project.status && (
+            <p data-field="status" className="mt-2 text-xs text-muted-foreground">
+              Status: {project.status}
+            </p>
+          )}
         </>
       )}
 

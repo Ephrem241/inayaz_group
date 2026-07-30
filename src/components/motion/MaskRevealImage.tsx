@@ -58,10 +58,11 @@ export function MaskRevealImage({
     <div
       ref={wrapperRef}
       data-mask-reveal
+      data-motion-initial
       className={cn("relative overflow-hidden", className)}
       style={{ aspectRatio, clipPath: "inset(0 0 100% 0)" }}
     >
-      <div ref={imageInnerRef} className="absolute inset-0 scale-110">
+      <div ref={imageInnerRef} data-motion-initial className="absolute inset-0 scale-110">
         <Image
           src={src}
           alt={alt}

@@ -7,6 +7,7 @@ import { NAV_ITEMS, PRIMARY_CTA } from "@/constants/navigation";
 import { gsap } from "@/lib/motion/gsap";
 import { useReducedMotionContext } from "@/components/motion/ReducedMotionProvider";
 import { getSmoothScroll } from "@/lib/motion/lenis";
+import { trackCta } from "@/lib/analytics/track";
 
 type MobileNavigationProps = {
   open: boolean;
@@ -90,7 +91,10 @@ export function MobileNavigation({ open, onClose }: MobileNavigationProps) {
         <div data-nav-item className="pb-4">
           <Link
             href={PRIMARY_CTA.href}
-            onClick={onClose}
+            onClick={() => {
+              trackCta("nav_discuss_project");
+              onClose();
+            }}
             className="btn btn-primary w-full justify-center"
           >
             {PRIMARY_CTA.label}

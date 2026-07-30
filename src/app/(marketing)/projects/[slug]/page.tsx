@@ -6,6 +6,7 @@ import { ProjectScope } from "@/components/sections/ProjectScope";
 import { ProjectServices } from "@/components/sections/ProjectServices";
 import { ProjectRelated } from "@/components/sections/ProjectRelated";
 import { ProjectDetailCTA } from "@/components/sections/ProjectDetailCTA";
+import { ProjectJsonLd } from "@/components/seo/ProjectJsonLd";
 import type { Project } from "@/constants/projects";
 import {
   getDivisionBySlug,
@@ -82,6 +83,7 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   return (
     <>
+      <ProjectJsonLd project={project} />
       <ProjectHero project={project} />
       <ProjectScope />
       <ProjectServices project={project} services={constructionDivision?.items ?? []} />

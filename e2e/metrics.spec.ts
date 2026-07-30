@@ -1,46 +1,38 @@
 import { test, expect } from "@playwright/test";
-import { METRICS } from "../src/constants/metrics";
+import { METRICS, YEARS_OF_EXPERIENCE } from "../src/constants/metrics";
 
 test.describe("Metrics", () => {
-  test("all six metric labels render", async ({ page }) => {
+  test("draft metrics never render publicly", async ({ page }) => {
     await page.goto("/");
 
-    for (const metric of METRICS) {
-      const slot = page.locator(`[data-metric="${metric.id}"]`);
-      await slot.scrollIntoViewIfNeeded();
-      await expect(slot.getByText(metric.label, { exact: true })).toBeVisible();
+    const draftLabels = METRICS.filter((metric) => metric.status !== "published").map(
+      (metric) => metric.label,
+    );
+    for (const label of draftLabels) {
+      await expect(page.getByText(label, { exact: true })).toHaveCount(0);
     }
   });
 
-  test("confirmed metric counts up to its final value", async ({ page }) => {
+  test("no placeholder or pending-confirmation text appears anywhere on the homepage", async ({
+    page,
+  }) => {
     await page.goto("/");
 
-    const slot = page.locator('[data-metric="years-of-experience"]');
-    await slot.scrollIntoViewIfNeeded();
-
-    const value = page.locator('[data-metric="years-of-experience"] [data-metric-value]');
-    await expect(value).toHaveText("11");
+    await expect(page.getByText("Pending confirmation")).toHaveCount(0);
+    await expect(page.getByText("—", { exact: true })).toHaveCount(0);
   });
 
-  test("pending metrics show an honest placeholder, not a fabricated number", async ({ page }) => {
+  test("with fewer than three published metrics, a confirmed-facts strip renders instead of a sparse grid", async ({
+    page,
+  }) => {
     await page.goto("/");
+    const publishedCount = METRICS.filter((metric) => metric.status === "published").length;
+    expect(publishedCount).toBeLessThan(3);
 
-    const pending = METRICS.filter((metric) => metric.status === "pending");
-    for (const metric of pending) {
-      const slot = page.locator(`[data-metric="${metric.id}"]`);
-      await slot.scrollIntoViewIfNeeded();
-
-      await expect(slot).toHaveAttribute("data-metric-status", "pending");
-      await expect(slot.getByText("—", { exact: true })).toBeVisible();
-      await expect(slot.getByText("Pending confirmation")).toBeVisible();
-      await expect(slot.locator("[data-metric-value]")).toHaveCount(0);
-    }
-  });
-
-  test("exactly one metric is confirmed and five are pending", async ({ page }) => {
-    await page.goto("/");
-
-    await expect(page.locator('[data-metric-status="confirmed"]')).toHaveCount(1);
-    await expect(page.locator('[data-metric-status="pending"]')).toHaveCount(5);
+    const facts = page.locator("[data-confirmed-facts]");
+    await expect(facts.getByText(`${YEARS_OF_EXPERIENCE} Years of Experience`)).toBeVisible();
+    await expect(facts.getByText("Category 1 General Contractor", { exact: true })).toBeVisible();
+    await expect(facts.getByText("Addis Ababa Headquarters")).toBeVisible();
+    await expect(page.locator("[data-metric]")).toHaveCount(0);
   });
 });

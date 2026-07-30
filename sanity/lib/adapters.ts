@@ -26,6 +26,7 @@ import type { Service } from "@/constants/services";
 import type { Project } from "@/constants/projects";
 import type { Article, ArticleBlock } from "@/constants/articles";
 import type { Metric } from "@/constants/metrics";
+import type { Recognition } from "@/constants/recognition";
 import { urlForImage } from "./image";
 import type {
   PortableTextBlock,
@@ -33,6 +34,7 @@ import type {
   SanityImage,
   SanityProject,
   SanityArticle,
+  SanityRecognition,
   SanityService,
   SanitySiteSettings,
 } from "./types";
@@ -128,6 +130,23 @@ export function adaptProject(project: SanityProject): Project {
     description: portableTextToPlainText(project.description),
     featured: project.featured,
     image: sanityImageToImage(project.heroImage),
+    // Previously stripped here despite existing in the schema/GROQ query —
+    // now surfaced so the frontend can render real values once client-
+    // confirmed, instead of a hardcoded "Pending confirmation" (Phase D).
+    status: project.status ?? null,
+    completionYear: project.completionYear ?? null,
+    builtArea: project.builtArea ?? null,
+    units: project.units ?? null,
+    gallery: project.gallery?.map(sanityImageToImage) ?? [],
+    services: project.services ?? null,
+    // Real Estate detail fields — all optional, hidden on the frontend when
+    // absent rather than fabricated.
+    unitTypes: project.unitTypes ?? null,
+    amenities: project.amenities ?? null,
+    pricingNote: project.pricingNote ?? null,
+    paymentPlanNote: project.paymentPlanNote ?? null,
+    brochureUrl: project.brochureUrl ?? null,
+    salesContact: project.salesContact ?? null,
   };
 }
 
@@ -145,17 +164,33 @@ export function adaptArticle(article: SanityArticle): Article {
   };
 }
 
+// Only "published" metrics with a real value reach the frontend at all —
+// draft/verified metrics are filtered out here, not rendered as a
+// placeholder (Metrics.tsx has no pending-state UI to feed).
 export function adaptMetrics(settings: SanitySiteSettings | null): Metric[] {
   if (!settings?.homepageMetrics) return [];
-  return settings.homepageMetrics.map((metric) =>
-    metric.confirmed && metric.value !== undefined
-      ? {
-          id: metric.id,
-          label: metric.label,
-          status: "confirmed" as const,
-          value: metric.value,
-          suffix: metric.suffix,
-        }
-      : { id: metric.id, label: metric.label, status: "pending" as const },
-  );
+  return settings.homepageMetrics
+    .filter(
+      (metric): metric is typeof metric & { value: number } =>
+        metric.status === "published" && metric.value !== undefined,
+    )
+    .map((metric) => ({
+      id: metric.id,
+      label: metric.label,
+      value: metric.value,
+      suffix: metric.suffix,
+    }));
+}
+
+export function adaptRecognition(recognition: SanityRecognition): Recognition {
+  return {
+    id: recognition._id,
+    eyebrow: recognition.eyebrow ?? "",
+    name: recognition.name,
+    description: recognition.description,
+    logo:
+      recognition.logoApproved && recognition.logo
+        ? sanityImageToImage(recognition.logo)
+        : undefined,
+  };
 }

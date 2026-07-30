@@ -193,8 +193,8 @@ async function seedSiteSettings(projectIdBySlug: Map<string, string>) {
       _key: metric.id,
       id: metric.id,
       label: metric.label,
-      confirmed: metric.status === "confirmed",
-      ...(metric.status === "confirmed" ? { value: metric.value, suffix: metric.suffix } : {}),
+      status: metric.status,
+      ...(metric.value !== undefined ? { value: metric.value, suffix: metric.suffix } : {}),
     })),
     footerTagline: "Building What's Next",
     footerDescription:
@@ -208,6 +208,59 @@ async function seedSiteSettings(projectIdBySlug: Map<string, string>) {
   console.log("[seed]   siteSettings");
 }
 
+// GC-1 is documented/confirmed per CLAUDE.md, so it seeds published with no
+// evidence file. CBE and COOP have no certificate scan or logo permission on
+// file yet — seeded as draft (hidden from the public site) rather than
+// published-with-a-caveat, per the explicit decision that unverified
+// institutional claims must not appear publicly at all.
+const RECOGNITIONS_SEED = [
+  {
+    id: "gc1",
+    name: "Category 1 General Contractor (GC-1)",
+    eyebrow: "Industry Classification",
+    description:
+      "As a Category 1 General Contractor, INAYAZ brings proven technical knowledge, professional leadership, and construction capability to every project.",
+    status: "published",
+    orderRank: 0,
+  },
+  {
+    id: "cbe",
+    name: "Commercial Bank of Ethiopia (CBE)",
+    eyebrow: "A Proven Partner",
+    description:
+      "Commercial Bank of Ethiopia formally recognizes INAYAZ for its exemplary record of financial responsibility, integrity, and disciplined business operations.",
+    status: "draft",
+    orderRank: 1,
+  },
+  {
+    id: "coop",
+    name: "COOP",
+    eyebrow: "Recommended By",
+    description:
+      "COOP formally recognizes INAYAZ for its exemplary record of financial responsibility, integrity, and disciplined business operations.",
+    status: "draft",
+    orderRank: 2,
+  },
+];
+
+async function seedRecognitions() {
+  console.log("[seed] Recognitions...");
+  for (const item of RECOGNITIONS_SEED) {
+    const _id = `recognition-${item.id}`;
+    await client.createOrReplace({
+      _id,
+      _type: "recognition",
+      name: item.name,
+      eyebrow: item.eyebrow,
+      description: item.description,
+      status: item.status,
+      logoApproved: false,
+      orderRank: item.orderRank,
+    });
+    console.log(`[seed]   ${_id} (${item.status})`);
+  }
+}
+
 async function main() {
   console.log(`[seed] Target: project ${projectId}, dataset ${dataset}`);
   await seedDivisions();
@@ -215,6 +268,7 @@ async function main() {
   const projectIdBySlug = await seedProjects();
   await seedArticles();
   await seedSiteSettings(projectIdBySlug);
+  await seedRecognitions();
   console.log("[seed] Done.");
 }
 
