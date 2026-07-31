@@ -68,7 +68,7 @@ export function MobileNavigation({ open, onClose }: MobileNavigationProps) {
             type="button"
             onClick={onClose}
             aria-label="Close menu"
-            className="rounded-full p-2 text-off-white transition-colors hover:text-primary"
+            className="rounded-full p-2 text-off-white transition-colors hover:text-secondary"
           >
             <X aria-hidden="true" size={28} />
           </button>
@@ -80,7 +80,7 @@ export function MobileNavigation({ open, onClose }: MobileNavigationProps) {
               <Link
                 href={item.href}
                 onClick={onClose}
-                className="font-heading text-4xl text-off-white transition-colors hover:text-primary"
+                className="font-heading text-4xl text-off-white transition-colors hover:text-secondary"
               >
                 {item.label}
               </Link>

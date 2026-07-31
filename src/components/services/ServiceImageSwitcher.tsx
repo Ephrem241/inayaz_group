@@ -40,7 +40,7 @@ export function ServiceImageSwitcher({ items }: ServiceImageSwitcherProps) {
                 className={cn(
                   "flex w-full items-center gap-4 border-l-2 py-4 text-left transition-colors",
                   isActive
-                    ? "border-construction-gold text-primary"
+                    ? "border-construction-gold text-secondary"
                     : "border-transparent text-off-white/70 hover:text-off-white",
                 )}
               >
@@ -69,7 +69,7 @@ export function ServiceImageSwitcher({ items }: ServiceImageSwitcherProps) {
         </div>
 
         {active.listLabel && (
-          <p className="mt-6 text-sm font-medium tracking-[0.2em] text-primary uppercase">
+          <p className="mt-6 text-sm font-medium tracking-[0.2em] text-secondary uppercase">
             {active.listLabel}
           </p>
         )}

@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { gsap, ScrollTrigger } from "@/lib/motion/gsap";
 import { useReducedMotionContext } from "@/components/motion/ReducedMotionProvider";
+import { HeroStack } from "@/components/motion/HeroStack";
 import { cn } from "@/lib/utils/cn";
 import type { Project } from "@/constants/projects";
 
@@ -66,17 +66,15 @@ export function ProjectShowcase({ project, tone }: ProjectShowcaseProps) {
         className="relative aspect-[4/3] w-full overflow-hidden lg:aspect-[21/9]"
         style={{ clipPath: "inset(0 0 100% 0)" }}
       >
-        <div ref={imageRef} data-project-image-scale className="absolute inset-0">
-          <Image
-            src={project.image.src}
-            alt={project.image.alt}
-            fill
-            sizes="100vw"
-            className="object-cover"
-            placeholder={project.image.blurDataURL ? "blur" : "empty"}
-            blurDataURL={project.image.blurDataURL}
-          />
-        </div>
+        <HeroStack
+          ref={imageRef}
+          src={project.image.src}
+          alt={project.image.alt}
+          backSrc={project.depthLayers?.back.src}
+          midSrc={project.depthLayers?.mid.src}
+          sizes="100vw"
+          blurDataURL={project.image.blurDataURL}
+        />
       </div>
 
       <div className="container-wide mt-10">
@@ -86,7 +84,7 @@ export function ProjectShowcase({ project, tone }: ProjectShowcaseProps) {
             // Gold on the light tone needs the darkened, WCAG AA-accessible
             // variant; the dark tone's navy background already passes with
             // the brand gold as-is.
-            tone === "dark" ? "text-primary" : "text-construction-gold-accessible",
+            tone === "dark" ? "text-secondary" : "text-construction-gold-accessible",
           )}
         >
           {project.category}

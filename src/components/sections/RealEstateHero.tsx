@@ -1,5 +1,6 @@
 import { MotionSection } from "@/components/motion/MotionSection";
 import { MaskRevealImage } from "@/components/motion/MaskRevealImage";
+import { ScrollScrubScale } from "@/components/motion/ScrollScrubScale";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import type { Project } from "@/constants/projects";
 
@@ -20,14 +21,16 @@ export function RealEstateHero({ project }: RealEstateHeroProps) {
         />
 
         <MotionSection className="mt-6">
-          <MaskRevealImage
-            src={project.image.src}
-            alt={project.image.alt}
-            blurDataURL={project.image.blurDataURL}
-            aspectRatio="21 / 9"
-            sizes="(min-width: 1200px) 1200px, 100vw"
-            priority
-          />
+          <ScrollScrubScale>
+            <MaskRevealImage
+              src={project.image.src}
+              alt={project.image.alt}
+              blurDataURL={project.image.blurDataURL}
+              aspectRatio="21 / 9"
+              sizes="(min-width: 1200px) 1200px, 100vw"
+              priority
+            />
+          </ScrollScrubScale>
         </MotionSection>
 
         <MotionSection delay={0.1} className="mt-10">

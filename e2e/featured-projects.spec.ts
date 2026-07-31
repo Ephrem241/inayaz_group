@@ -70,7 +70,13 @@ test.describe("Featured Projects", () => {
       const panel = page.locator(`[data-project="${project.slug}"]`);
       await panel.scrollIntoViewIfNeeded();
 
-      const img = panel.locator("img");
+      // Featured panels render via HeroStack, which layers 3 <img> elements
+      // (two dimmed depth echoes behind the sharp foreground) from the same
+      // single source image — target the foreground layer specifically.
+      // Secondary grid cards render a single Image3D <img>.
+      const img = project.featured
+        ? panel.locator("[data-project-image-scale] img")
+        : panel.locator("img");
       await expect(img).toBeVisible();
       await waitForImageLoad(img);
       const naturalWidth = await img.evaluate((el: HTMLImageElement) => el.naturalWidth);

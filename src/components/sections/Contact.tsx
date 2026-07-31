@@ -23,7 +23,7 @@ export function Contact({ headingLevel = "h2" }: ContactProps = {}) {
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
             <MotionSection>
-              <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+              <p className="text-sm font-medium tracking-[0.2em] text-secondary uppercase">
                 Contact
               </p>
               <Heading className="mt-4 text-4xl md:text-5xl">Start a Conversation</Heading>
@@ -45,7 +45,7 @@ export function Contact({ headingLevel = "h2" }: ContactProps = {}) {
                     href={`mailto:${company.email}`}
                     event="email_click"
                     eventProps={{ source: "contact_page" }}
-                    className="text-muted hover:text-primary"
+                    className="text-muted hover:text-secondary"
                   >
                     {company.email}
                   </TrackedAnchor>
@@ -57,7 +57,7 @@ export function Contact({ headingLevel = "h2" }: ContactProps = {}) {
                         href={telHref(phone)}
                         event="phone_click"
                         eventProps={{ source: "contact_page" }}
-                        className="text-muted hover:text-primary"
+                        className="text-muted hover:text-secondary"
                       >
                         {phone}
                       </TrackedAnchor>

@@ -74,8 +74,10 @@ export function CinematicHero() {
       if (pointerFine) {
         const setMidX = gsap.quickTo(midgroundRef.current, "x", { duration: 0.8, ease: "power2.out" });
         const setMidY = gsap.quickTo(midgroundRef.current, "y", { duration: 0.8, ease: "power2.out" });
+        const setMidRotateX = gsap.quickTo(midgroundRef.current, "rotateX", { duration: 0.8, ease: "power2.out" });
         const setForeX = gsap.quickTo(foregroundRef.current, "x", { duration: 0.6, ease: "power2.out" });
         const setForeY = gsap.quickTo(foregroundRef.current, "y", { duration: 0.6, ease: "power2.out" });
+        const setForeRotateX = gsap.quickTo(foregroundRef.current, "rotateX", { duration: 0.6, ease: "power2.out" });
 
         const onPointerMove = (event: PointerEvent) => {
           const rect = container.getBoundingClientRect();
@@ -84,8 +86,10 @@ export function CinematicHero() {
 
           setMidX(relX * 12);
           setMidY(relY * 8);
+          setMidRotateX(relY * -2);
           setForeX(relX * 22);
           setForeY(relY * 14);
+          setForeRotateX(relY * -3);
         };
 
         container.addEventListener("pointermove", onPointerMove);
@@ -103,7 +107,7 @@ export function CinematicHero() {
   return (
     <section
       ref={heroRef}
-      className="relative h-dvh min-h-[640px] w-full overflow-hidden bg-dark"
+      className="relative h-dvh min-h-[640px] w-full overflow-hidden bg-dark [perspective:1400px]"
     >
       <div ref={backgroundRef} className="absolute inset-0">
         <Image
@@ -146,7 +150,7 @@ export function CinematicHero() {
         <p
           ref={eyebrowRef}
           data-motion-initial
-          className="text-sm font-medium tracking-[0.3em] text-primary uppercase opacity-0"
+          className="text-sm font-medium tracking-[0.3em] text-secondary uppercase opacity-0"
         >
           INAYAZ Group
         </p>

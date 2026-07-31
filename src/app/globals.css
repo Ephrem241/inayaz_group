@@ -1,32 +1,55 @@
 @import "tailwindcss";
 
 :root {
-  --color-deep-navy: #0b1f33;
-  --color-architectural-charcoal: #14181d;
-  --color-warm-stone: #d8c7a5;
-  --color-construction-gold: #b79052;
-  --color-off-white: #f5f3ee;
-  --color-steel-gray: #7b848c;
+  /* Layered charcoal ramp — replaces the old 2-level near-black system with
+     four distinct dark tones (primary/secondary/section/surface), giving
+     dark sections real depth instead of one flat near-black. Values and
+     role names are the client's own premium-palette spec. */
+  --color-deep-navy: #1a2028; /* was #0b1f33 — "Primary Background" */
+  --color-architectural-charcoal: #252b33; /* was #14181d — "Secondary Background" */
+  --color-charcoal-section: #2b3139; /* NEW — "Section Background" */
+  --color-charcoal-surface: #313841; /* NEW — "Cards / Elevated Surfaces" */
+  --color-hairline: #454d57; /* NEW — "Borders" */
 
-  /* WCAG AA-accessible variants of the two brand colors above, for text use
-     only. The literal brand hexes (#B79052, #7B848C) fail 4.5:1 against
-     off-white/warm-stone as text, and steel-gray narrowly fails against
-     deep-navy too — verified with the WCAG relative-luminance formula, not
-     eyeballed. Never used for icons/buttons/borders, only where the color
-     is applied to readable text — see the .section-light/.section-dark/
-     .bg-warm-stone overrides below. */
-  --color-construction-gold-accessible: #5a4625; /* 8.10:1 on off-white, 5.40:1 on warm-stone */
-  --color-steel-gray-on-light: #4a4f54; /* 7.46:1 on off-white, 4.98:1 on warm-stone */
-  --color-steel-gray-on-dark: #848d94; /* 4.94:1 on deep-navy */
+  --color-warm-stone: #dbc7a5; /* was #d8c7a5 */
+  --color-construction-gold: #b79052; /* unchanged value — role demoted to secondary accent */
+  --color-off-white: #f5f3ee; /* unchanged */
+  --color-steel-gray: #a2abb5; /* was #7b848c */
+
+  /* Brand red — new primary accent, no prior analogue. */
+  --color-brand-red: #b22222;
+  --color-brand-red-hover: #c53030;
+  --color-brand-red-pressed: #a61e1e;
+
+  /* WCAG AA-accessible variants, for text use only — verified with the WCAG
+     relative-luminance formula, not eyeballed. Never used for icons/
+     buttons/borders, only where the color is applied to readable text —
+     see the .section-light/.section-dark/.bg-warm-stone overrides below.
+     Raw brand red has NO accessible-on-dark variant: #B22222 passes 4.5:1
+     as text on off-white (6.02:1) but fails against every dark charcoal
+     level above (1.78–2.46:1), and there is no way to lighten it enough to
+     clear 4.5:1 without it stopping being "brand red" — the client's own
+     "never bright red" rule rules that out. Use --secondary (gold) for
+     dark-section text instead; see .section-dark below. */
+  --color-construction-gold-accessible: #5a4625; /* 8.10:1 on off-white, ~5.3:1 on warm-stone */
+  --color-steel-gray-on-light: #4a4f54; /* 7.46:1 on off-white, ~4.9:1 on warm-stone */
+  --color-steel-gray-on-dark: #a2abb5; /* now equals the base steel-gray — it already clears AAA (7.05:1) against the new --dark; kept as a distinct token for structural consistency with the .section-dark override pattern below */
 
   --background: var(--color-off-white);
   --foreground: var(--color-architectural-charcoal);
-  --primary: var(--color-construction-gold);
-  --primary-foreground: var(--color-deep-navy);
+  --primary: var(--color-brand-red);
+  --primary-foreground: var(--color-off-white); /* was deep-navy — a red button needs light text, not dark */
+  --secondary: var(--color-construction-gold); /* NEW — accent color for literal TEXT use (kicker labels, nav-hover, links), where raw red fails contrast on dark. See the no-accessible-on-dark-red note above. */
   --muted: var(--color-warm-stone);
   --muted-foreground: var(--color-steel-gray);
   --dark: var(--color-deep-navy);
   --dark-secondary: var(--color-architectural-charcoal);
+
+  /* Scoped to .btn only (see .btn below) — NOT a change to --radius-DEFAULT,
+     which also backs the bare `rounded` utility used by, e.g.,
+     RealEstateListing.tsx's <select> filters. Reshaping those wasn't asked
+     for; only button corners were. */
+  --radius-control: 0.75rem; /* 12px */
 
   --ease-power2-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-power3-out: cubic-bezier(0.215, 0.61, 0.355, 1);
@@ -39,16 +62,23 @@
 @theme inline {
   --color-deep-navy: var(--color-deep-navy);
   --color-architectural-charcoal: var(--color-architectural-charcoal);
+  --color-charcoal-section: var(--color-charcoal-section);
+  --color-charcoal-surface: var(--color-charcoal-surface);
+  --color-hairline: var(--color-hairline);
   --color-warm-stone: var(--color-warm-stone);
   --color-construction-gold: var(--color-construction-gold);
   --color-construction-gold-accessible: var(--color-construction-gold-accessible);
   --color-off-white: var(--color-off-white);
   --color-steel-gray: var(--color-steel-gray);
+  --color-brand-red: var(--color-brand-red);
+  --color-brand-red-hover: var(--color-brand-red-hover);
+  --color-brand-red-pressed: var(--color-brand-red-pressed);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-dark: var(--dark);
@@ -77,7 +107,11 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-construction-gold);
+    /* Gold, not red — red is now the dominant *interactive* color (buttons),
+       so a red focus ring would nearly disappear against a red button. Gold
+       reliably passes non-text contrast against both light and dark
+       surfaces regardless of what it's focusing. */
+    outline: 2px solid var(--secondary);
     outline-offset: 2px;
   }
 }
@@ -103,15 +137,27 @@
    resolves to the accessible variant — Tailwind's generated utilities
    reference this custom property live (@theme inline above), so this
    cascades correctly without touching a single component.
-   --primary is NOT rescoped the same way: it also drives .btn-primary's
-   and the skip-link's *background*, which relies on the original lighter
-   gold for readable navy button text — darkening it here would silently
-   break every gold button inside a light section. Gold text specifically
-   is fixed per-usage instead, via the .text-construction-gold-accessible
-   utility (see @theme inline). */
+
+   Two independent "raw color fails contrast in one direction" problems live
+   in this file, mirror images of each other:
+   - Gold (--secondary) is light enough to pass AA on dark backgrounds but
+     fails on light ones — solved by the .text-construction-gold-accessible
+     utility for light-section usage (see @theme inline).
+   - Brand red (--primary) is dark enough to pass AA on light backgrounds
+     (6.02:1 on off-white) but fails on EVERY dark charcoal level in this
+     file (1.78–2.46:1, verified via the WCAG relative-luminance formula,
+     not eyeballed). There is no "accessible-on-dark" red: any red light
+     enough to hit 4.5:1 against #1A2028–#313841 stops reading as brand red.
+     Consequence: raw red must never be used as literal TEXT on a dark
+     section — use --secondary (text-secondary) for kicker labels/nav-hover/
+     links in dark sections instead. --primary stays reserved for
+     backgrounds (.btn-primary, bg-primary) and decorative/aria-hidden
+     graphics (the Wordmark icon), where WCAG's text-contrast rule doesn't
+     apply. See .btn-outline below for the same tension applied to borders. */
 .section-light,
 .bg-warm-stone {
   --muted-foreground: var(--color-steel-gray-on-light);
+  --btn-outline-border: var(--primary);
 }
 
 .section-dark {
@@ -139,35 +185,53 @@
   font-size: 0.875rem;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  border-radius: var(--radius-DEFAULT);
+  border-radius: var(--radius-control);
   transition:
     background-color var(--duration-micro) var(--ease-power2-out),
     color var(--duration-micro) var(--ease-power2-out),
-    border-color var(--duration-micro) var(--ease-power2-out);
+    border-color var(--duration-micro) var(--ease-power2-out),
+    box-shadow var(--duration-micro) var(--ease-power2-out);
 }
 
 .btn-primary {
   background: var(--primary);
   color: var(--primary-foreground);
   border: 1px solid var(--primary);
+  box-shadow: 0 4px 14px -4px rgb(178 34 34 / 0.35);
 }
 
 .btn-primary:hover {
-  background: var(--color-deep-navy);
-  color: var(--color-off-white);
-  border-color: var(--color-deep-navy);
+  background: var(--color-brand-red-hover);
+  color: var(--primary-foreground);
+  border-color: var(--color-brand-red-hover);
+  box-shadow: 0 6px 18px -4px rgb(197 48 48 / 0.4);
+}
+
+.btn-primary:active {
+  background: var(--color-brand-red-pressed);
+  color: var(--primary-foreground);
+  border-color: var(--color-brand-red-pressed);
+  box-shadow: 0 2px 8px -2px rgb(166 30 30 / 0.45);
 }
 
 .btn-outline {
   background: transparent;
   color: currentColor;
-  border: 1px solid currentColor;
+  /* Context-aware: red only where it's guaranteed to pass contrast (light
+     sections, ≥6:1 — set via .section-light/.bg-warm-stone above). On dark
+     sections the variable is never set, so this falls back to currentColor
+     (off-white, since .section-dark sets color: var(--background)) — a
+     literal red outline there would fail WCAG 1.4.11's 3:1 non-text minimum
+     (2.14–2.46:1) and read as murky against the new charcoal besides. */
+  border: 1px solid var(--btn-outline-border, currentColor);
 }
 
 .btn-outline:hover {
-  background: var(--color-construction-gold);
-  color: var(--color-deep-navy);
-  border-color: var(--color-construction-gold);
+  background: rgb(178 34 34 / 0.12);
+}
+
+.btn-outline:active {
+  background: rgb(178 34 34 / 0.18);
 }
 
 @media (prefers-reduced-motion: reduce) {

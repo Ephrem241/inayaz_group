@@ -43,8 +43,8 @@ export function PremiumHeader() {
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "font-body text-sm tracking-wide transition-colors hover:text-primary",
-                  active ? "text-primary" : "text-off-white",
+                  "font-body text-sm tracking-wide transition-colors hover:text-secondary",
+                  active ? "text-secondary" : "text-off-white",
                 )}
               >
                 {item.label}
@@ -66,7 +66,7 @@ export function PremiumHeader() {
             type="button"
             onClick={() => setMobileOpen(true)}
             aria-label="Open menu"
-            className="rounded-full p-2 text-off-white transition-colors hover:text-primary md:hidden"
+            className="rounded-full p-2 text-off-white transition-colors hover:text-secondary md:hidden"
           >
             <Menu aria-hidden="true" size={26} />
           </button>

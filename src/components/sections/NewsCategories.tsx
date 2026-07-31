@@ -6,7 +6,7 @@ export function NewsCategories() {
     <section className="section-dark py-16 md:py-24 lg:py-32">
       <div className="container-content">
         <MotionSection>
-          <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+          <p className="text-sm font-medium tracking-[0.2em] text-secondary uppercase">
             What We&apos;ll Be Covering
           </p>
           <h2 className="mt-4 text-4xl md:text-5xl">Topics on the Horizon</h2>

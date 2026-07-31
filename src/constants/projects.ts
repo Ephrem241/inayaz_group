@@ -12,6 +12,14 @@ export type Project = {
   description: string;
   featured: boolean;
   image: { src: string; alt: string; blurDataURL?: string };
+  // Optional distinct photos for HeroStack's two dimmed depth-echo layers
+  // (featured projects only) — gives the layered stack genuine depth
+  // instead of echoing `image` behind itself. Falls back to `image` when
+  // absent.
+  depthLayers?: {
+    back: { src: string; alt: string };
+    mid: { src: string; alt: string };
+  };
   // Not yet confirmed for any current project — always null today, but no
   // longer stripped at the adapter layer, so real values render as soon as
   // they're entered in Sanity (Phase D). Every consumer must render these
@@ -65,6 +73,16 @@ export const PROJECTS: Project[] = [
       src: "/images/projects/placeholder-project-ameliyaz.jpg",
       alt: "Silhouette of a tower crane and an in-progress high-rise structure at sunset",
     },
+    depthLayers: {
+      back: {
+        src: "/images/projects/placeholder-project-ameliyaz-structure.jpg",
+        alt: "Golden-hour reflection on a glass office tower facade",
+      },
+      mid: {
+        src: "/images/projects/placeholder-project-ameliyaz-materials.jpg",
+        alt: "Stacked construction scaffolding and metal poles",
+      },
+    },
   },
   {
     slug: "gold-souq",
@@ -94,6 +112,16 @@ export const PROJECTS: Project[] = [
       src: "/images/projects/placeholder-project-gold-souq.jpg",
       alt: "Generic mid-rise concrete structure with scaffolding under construction",
     },
+    depthLayers: {
+      back: {
+        src: "/images/projects/placeholder-project-gold-souq-structure.jpg",
+        alt: "Silhouette of industrial tower cranes against an overcast sky at dusk",
+      },
+      mid: {
+        src: "/images/projects/placeholder-project-gold-souq-materials.jpg",
+        alt: "Close-up of a cracked, weathered concrete surface",
+      },
+    },
   },
   {
     slug: "akoya-ozone",
@@ -122,6 +150,16 @@ export const PROJECTS: Project[] = [
     image: {
       src: "/images/projects/placeholder-project-akoya-ozone.jpg",
       alt: "Close-up of coiled steel rebar",
+    },
+    depthLayers: {
+      back: {
+        src: "/images/projects/placeholder-project-akoya-ozone-structure.jpg",
+        alt: "Low-angle shot of a tower crane atop a high-rise under construction",
+      },
+      mid: {
+        src: "/images/projects/placeholder-project-akoya-ozone-materials.jpg",
+        alt: "Close-up of blue-and-white glass window panes on a high-rise facade",
+      },
     },
   },
   {

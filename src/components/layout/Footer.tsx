@@ -35,7 +35,7 @@ export function Footer() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm text-muted transition-colors hover:text-primary"
+              className="text-sm text-muted transition-colors hover:text-secondary"
             >
               {item.label}
             </Link>
@@ -55,7 +55,7 @@ export function Footer() {
               href={`mailto:${company.email}`}
               event="email_click"
               eventProps={{ source: "footer" }}
-              className="text-muted hover:text-primary"
+              className="text-muted hover:text-secondary"
             >
               {company.email}
             </TrackedAnchor>
@@ -67,7 +67,7 @@ export function Footer() {
                   href={telHref(phone)}
                   event="phone_click"
                   eventProps={{ source: "footer" }}
-                  className="text-muted hover:text-primary"
+                  className="text-muted hover:text-secondary"
                 >
                   {phone}
                 </TrackedAnchor>
@@ -86,7 +86,7 @@ export function Footer() {
           </p>
           <nav aria-label="Legal" className="flex flex-wrap gap-x-6 gap-y-2">
             {LEGAL_LINKS.map((item) => (
-              <Link key={item.href} href={item.href} className="hover:text-primary">
+              <Link key={item.href} href={item.href} className="hover:text-secondary">
                 {item.label}
               </Link>
             ))}

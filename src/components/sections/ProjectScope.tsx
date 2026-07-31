@@ -6,7 +6,7 @@ export function ProjectScope() {
     <section data-project-scope-section className="section-dark py-16 md:py-24 lg:py-32">
       <div className="container-content">
         <MotionSection>
-          <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+          <p className="text-sm font-medium tracking-[0.2em] text-secondary uppercase">
             Scope &amp; Timeline
           </p>
           <h2 className="mt-4 text-4xl md:text-5xl">How This Project Was Built</h2>
@@ -20,7 +20,7 @@ export function ProjectScope() {
           {EXECUTION_SCOPE_STAGES.map((stage, index) => (
             <MotionSection key={stage.id} delay={index * 0.05}>
               <div data-scope-stage={stage.id} className="border-l-2 border-construction-gold pl-6">
-                <span className="text-sm font-medium tracking-[0.2em] text-primary">
+                <span className="text-sm font-medium tracking-[0.2em] text-secondary">
                   {stage.number}
                 </span>
                 <h3 className="mt-2 text-xl font-medium">{stage.name}</h3>

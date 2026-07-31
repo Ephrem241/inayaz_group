@@ -20,7 +20,7 @@ export function RealEstateDetails({ project }: RealEstateDetailsProps) {
     <section data-real-estate-details-section className="section-dark py-16 md:py-24 lg:py-32">
       <div className="container-content">
         <MotionSection>
-          <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+          <p className="text-sm font-medium tracking-[0.2em] text-secondary uppercase">
             Development Details
           </p>
           <h2 className="mt-4 text-4xl md:text-5xl">What This Development Offers</h2>
@@ -103,7 +103,7 @@ export function RealEstateDetails({ project }: RealEstateDetailsProps) {
               href={`mailto:${contactLine}`}
               event="email_click"
               eventProps={{ source: "real_estate_details", development: project.slug }}
-              className="text-off-white/80 hover:text-primary"
+              className="text-off-white/80 hover:text-secondary"
             >
               {contactLine}
             </TrackedAnchor>

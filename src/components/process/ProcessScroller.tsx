@@ -5,6 +5,8 @@ import { gsap, ScrollTrigger } from "@/lib/motion/gsap";
 import { useReducedMotionContext } from "@/components/motion/ReducedMotionProvider";
 import { ScrollProgressLine } from "@/components/motion/ScrollProgressLine";
 import { MotionSection } from "@/components/motion/MotionSection";
+import { FloatingPanel } from "@/components/motion/FloatingPanel";
+import { Image3D } from "@/components/motion/Image3D";
 import type { ProcessStage } from "@/constants/construction-process";
 
 type ProcessScrollerProps = {
@@ -87,14 +89,21 @@ export function ProcessScroller({ stages }: ProcessScrollerProps) {
               ref={(el) => {
                 panelRefs.current[index] = el;
               }}
-              className="absolute inset-0 flex flex-col items-start justify-center"
+              className="absolute inset-0"
             >
-              <div className="container-wide">
-                <span className="text-8xl text-construction-gold md:text-9xl">
-                  {stage.number}
-                </span>
-                <h3 className="mt-4 text-4xl md:text-5xl">{stage.name}</h3>
-                <p className="mt-4 max-w-xl text-base text-off-white/80">{stage.description}</p>
+              <Image3D src={stage.image.src} alt="" fill sizes="100vw" />
+              <div className="absolute inset-0 bg-gradient-to-t from-deep-navy/90 via-deep-navy/55 to-deep-navy/25" />
+
+              <div className="absolute inset-0 flex flex-col items-start justify-center">
+                <div className="container-wide">
+                  <FloatingPanel tone="section" className="max-w-2xl px-8 py-10 md:px-12 md:py-14">
+                    <span className="text-8xl text-construction-gold md:text-9xl">
+                      {stage.number}
+                    </span>
+                    <h3 className="mt-4 text-4xl md:text-5xl">{stage.name}</h3>
+                    <p className="mt-4 max-w-xl text-base text-off-white/80">{stage.description}</p>
+                  </FloatingPanel>
+                </div>
               </div>
             </div>
           ))}
@@ -114,9 +123,18 @@ export function ProcessScroller({ stages }: ProcessScrollerProps) {
           {stages.map((stage) => (
             <MotionSection key={stage.id} className="relative pl-8">
               <span className="absolute top-1 left-0 h-2 w-2 rounded-full bg-construction-gold" />
-              <span className="text-4xl text-construction-gold">{stage.number}</span>
-              <h3 className="mt-2 text-2xl">{stage.name}</h3>
-              <p className="mt-2 max-w-md text-sm text-off-white/80">{stage.description}</p>
+              <Image3D
+                src={stage.image.src}
+                alt=""
+                aspectRatio="16 / 9"
+                sizes="100vw"
+                className="mb-4"
+              />
+              <FloatingPanel tone="section" className="px-6 py-8">
+                <span className="text-4xl text-construction-gold">{stage.number}</span>
+                <h3 className="mt-2 text-2xl">{stage.name}</h3>
+                <p className="mt-2 max-w-md text-sm text-off-white/80">{stage.description}</p>
+              </FloatingPanel>
             </MotionSection>
           ))}
         </div>

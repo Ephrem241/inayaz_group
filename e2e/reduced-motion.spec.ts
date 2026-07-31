@@ -1,6 +1,18 @@
 import { test, expect } from "@playwright/test";
 import { YEARS_OF_EXPERIENCE } from "../src/constants/metrics";
 
+// Framer Motion animates rotateX/rotateY/z via a 3D transform, so its
+// identity state serializes as matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0,
+// ...) rather than the 2D matrix(1, 0, 0, 1, ...) GSAP's plain x/y/scale
+// tweens produce — both represent "no visible transform," so accept either.
+function isIdentityTransform(transform: string) {
+  return (
+    transform === "none" ||
+    transform.startsWith("matrix(1, 0, 0, 1") ||
+    transform.startsWith("matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0")
+  );
+}
+
 test.describe("Reduced motion", () => {
   test.use({ contextOptions: { reducedMotion: "reduce" } });
 
@@ -110,5 +122,44 @@ test.describe("Reduced motion", () => {
     } else {
       await expect(page.getByText(`${YEARS_OF_EXPERIENCE} Years of Experience`)).toBeVisible();
     }
+  });
+
+  test("Image3D and MotionCard show no transform beyond identity, even after a hover attempt", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const card = page.locator("[data-motion-card]").first();
+    await card.scrollIntoViewIfNeeded();
+    await card.hover();
+
+    const image = page.locator("[data-image-3d]").first();
+    await image.scrollIntoViewIfNeeded();
+    await image.hover();
+
+    for (const locator of [card, image]) {
+      const transform = await locator.evaluate((el) => getComputedStyle(el).transform);
+      expect(isIdentityTransform(transform)).toBe(true);
+    }
+  });
+
+  test("FloatingPanel never starts its continuous float", async ({ page }) => {
+    await page.goto("/");
+
+    // ProcessScroller renders both a desktop (pinned) and mobile (stacked)
+    // tree; under reduced motion the desktop tree stays in the DOM but
+    // display:none (see the adjacent "falls back to the stacked timeline"
+    // test), so an unscoped [data-floating-panel] locator's DOM-order
+    // .first() would resolve to a hidden desktop panel and time out on
+    // scrollIntoViewIfNeeded. Scope to the tree that's actually visible.
+    const panel = page.locator("[data-construction-process-mobile] [data-floating-panel]").first();
+    await panel.scrollIntoViewIfNeeded();
+
+    const before = await panel.evaluate((el) => getComputedStyle(el).transform);
+    await page.waitForTimeout(600);
+    const after = await panel.evaluate((el) => getComputedStyle(el).transform);
+
+    expect(isIdentityTransform(before)).toBe(true);
+    expect(after).toBe(before);
   });
 });

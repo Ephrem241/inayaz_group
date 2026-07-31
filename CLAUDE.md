@@ -293,7 +293,9 @@ Build with:
 - Playwright for end-to-end tests
 - Vercel for deployment
 
-Animation library decision: **GSAP only.** Do not install Framer Motion. All motion — scroll-driven, parallax, reveals, transitions — goes through GSAP + ScrollTrigger, with Lenis for smooth scrolling. Keep motion logic isolated in `lib/motion/`.
+Animation library decision: **GSAP + ScrollTrigger + Lenis owns all scroll-linked motion** (scroll-driven parallax, scrubbed/pinned reveals, transitions) — this is non-negotiable, since Lenis-sync correctness depends on ScrollTrigger owning anything tied to scroll position. Keep motion logic isolated in `lib/motion/`.
+
+**Approved exception (Premium Color & 3D Motion Upgrade, 2026-07):** `motion` (the `motion/react` package — Framer Motion's actively-developed successor; do not install the `framer-motion` compatibility shim) is a second, deliberately scoped animation library for pointer-hover and one-shot viewport-entrance leaf components only — `Image3D`, `MotionCard`, `FloatingPanel`, `RevealImage`, `AnimatedCounter` (all in `src/components/motion/`). Anything scroll-linked (`ParallaxImage`, `HeroStack`, `ScrollScrubScale`, and every existing scroll-scrubbed/pinned component) stays on GSAP regardless of how new it is. New motion components must consume `useReducedMotionContext()` (never a library's own reduced-motion hook) and mark any JS-hidden initial state with `data-motion-initial` so `.no-js [data-motion-initial]` in `globals.css` neutralizes it if JS never runs.
 
 Do not use Prisma, PostgreSQL, or a custom database. Sanity is the content backend. Do not build a custom admin dashboard or custom authentication — Sanity Studio is the admin interface.
 

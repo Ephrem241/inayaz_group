@@ -20,7 +20,7 @@ export function BusinessDivisions({ divisions: divisionList }: BusinessDivisions
     <section className="section-dark py-16 md:py-24 lg:py-32">
       <div className="container-wide">
         <MotionSection>
-          <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+          <p className="text-sm font-medium tracking-[0.2em] text-secondary uppercase">
             Our Divisions
           </p>
           <h2 className="mt-4 text-4xl md:text-5xl">

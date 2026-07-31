@@ -8,7 +8,7 @@ export function MissionVision() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
           <MotionSection>
             <div className="border-l-2 border-construction-gold pl-6">
-              <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+              <p className="text-sm font-medium tracking-[0.2em] text-secondary uppercase">
                 Our Mission
               </p>
               <p className="mt-4 text-xl leading-relaxed text-off-white md:text-2xl">
@@ -19,7 +19,7 @@ export function MissionVision() {
 
           <MotionSection delay={0.1}>
             <div className="border-l-2 border-construction-gold pl-6">
-              <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+              <p className="text-sm font-medium tracking-[0.2em] text-secondary uppercase">
                 Our Vision
               </p>
               <p className="mt-4 text-xl leading-relaxed text-off-white md:text-2xl">

@@ -143,8 +143,8 @@ export function RealEstateListing({ projects }: RealEstateListingProps) {
           </div>
         ) : (
           <div className="mt-12 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-            {visibleProjects.map((project) => (
-              <RealEstateCard key={project.slug} project={project} />
+            {visibleProjects.map((project, index) => (
+              <RealEstateCard key={project.slug} project={project} delay={(index % 3) * 0.1} />
             ))}
           </div>
         )}

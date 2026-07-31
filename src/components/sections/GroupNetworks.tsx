@@ -10,7 +10,7 @@ export function GroupNetworks() {
     <section className="section-dark py-16 md:py-24 lg:py-32">
       <div className="container-content">
         <MotionSection>
-          <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+          <p className="text-sm font-medium tracking-[0.2em] text-secondary uppercase">
             Stronger Together: Connecting Industry Leaders
           </p>
           <h2 className="mt-4 text-4xl md:text-5xl">Local Expertise. Global Reach.</h2>
@@ -38,7 +38,7 @@ export function GroupNetworks() {
               data-network={sisterCompany.id}
               className="rounded-sm border border-construction-gold/30 p-8 md:p-10"
             >
-              <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+              <p className="text-sm font-medium tracking-[0.2em] text-secondary uppercase">
                 Sister Company
               </p>
               <span className="mt-3 block font-heading text-3xl font-semibold tracking-tight text-off-white">
@@ -64,7 +64,7 @@ export function GroupNetworks() {
                   href={sisterCompany.externalUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-primary underline decoration-construction-gold underline-offset-4 transition-colors hover:text-off-white"
+                  className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-secondary underline decoration-construction-gold underline-offset-4 transition-colors hover:text-off-white"
                 >
                   Visit akoyarealproperty.com
                   <ArrowUpRight className="h-4 w-4" aria-hidden="true" />

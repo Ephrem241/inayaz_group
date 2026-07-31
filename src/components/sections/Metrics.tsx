@@ -25,7 +25,7 @@ export function Metrics({ metrics }: MetricsProps) {
     <section className="bg-dark-secondary py-16 text-off-white md:py-24 lg:py-32">
       <div className="container-wide">
         <MotionSection>
-          <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+          <p className="text-sm font-medium tracking-[0.2em] text-secondary uppercase">
             By the Numbers
           </p>
           <h2 className="mt-4 text-4xl md:text-5xl">Our Track Record</h2>

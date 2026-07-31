@@ -1,4 +1,6 @@
-import Image from "next/image";
+"use client";
+
+import { Image3D } from "@/components/motion/Image3D";
 
 type ProjectGalleryProps = {
   images: { src: string; alt: string; blurDataURL?: string }[];
@@ -11,18 +13,16 @@ export function ProjectGallery({ images }: ProjectGalleryProps) {
   return (
     <div data-project-gallery className="grid grid-cols-1 gap-4 sm:grid-cols-2">
       {images.map((image, index) => (
-        <div key={image.src} className="relative aspect-[4/3] w-full overflow-hidden">
-          <Image
-            src={image.src}
-            alt={image.alt}
-            fill
-            sizes="(min-width: 640px) 50vw, 100vw"
-            className="object-cover"
-            priority={index === 0}
-            placeholder={image.blurDataURL ? "blur" : "empty"}
-            blurDataURL={image.blurDataURL}
-          />
-        </div>
+        <Image3D
+          key={image.src}
+          src={image.src}
+          alt={image.alt}
+          aspectRatio="4 / 3"
+          sizes="(min-width: 640px) 50vw, 100vw"
+          priority={index === 0}
+          blurDataURL={image.blurDataURL}
+          delay={(index % 2) * 0.1}
+        />
       ))}
     </div>
   );

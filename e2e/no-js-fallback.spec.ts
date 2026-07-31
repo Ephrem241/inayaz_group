@@ -50,4 +50,60 @@ test.describe("No-JS fallback", () => {
     await expect(mobile).toBeVisible();
     await expect(mobile.getByText("Vision", { exact: true })).toBeVisible();
   });
+
+  test("featured project cards (MotionCard + Image3D) are visible without JavaScript", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const card = page.locator("[data-motion-card]").first();
+    await expect(card).toBeVisible();
+
+    const image = page.locator("[data-image-3d]").first();
+    await expect(image).toBeVisible();
+    await expect(image).toHaveCSS("opacity", "1");
+  });
+
+  test("the project gallery (Image3D) is visible without JavaScript", async ({ page }) => {
+    await page.goto("/projects/ameliyaz");
+
+    const gallery = page.locator("[data-project-gallery] [data-image-3d]");
+    await expect(gallery.first()).toBeVisible();
+    await expect(gallery.first()).toHaveCSS("opacity", "1");
+  });
+
+  test("the sustainability section's parallax image is visible without JavaScript", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const reveal = page.locator("[data-reveal-image]").first();
+    await expect(reveal).toBeVisible();
+    await expect(reveal).toHaveCSS("opacity", "1");
+
+    const parallax = reveal.locator("[data-parallax-image]");
+    await expect(parallax).toBeVisible();
+  });
+
+  test("published metrics show their final number (not a stuck 0) without JavaScript", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    // Mirrors the reduced-motion suite's same conditional: the metrics grid
+    // only renders once 3+ metrics are published in Sanity (today there's
+    // just one, so the homepage shows the static facts strip instead). This
+    // closes the real gap the old GSAP-only AnimatedMetric had — it
+    // server-rendered "0" and only ever corrected it in a useEffect, so a
+    // no-JS visitor saw a permanently stuck zero. AnimatedCounter now
+    // server-renders the final value directly.
+    const metricValue = page.locator("[data-metric-value]").first();
+    if (await metricValue.count()) {
+      const text = await metricValue.textContent();
+      expect(text).not.toBe("0");
+      await expect(metricValue).toBeVisible();
+    } else {
+      await expect(page.locator("[data-confirmed-facts]")).toBeVisible();
+    }
+  });
 });

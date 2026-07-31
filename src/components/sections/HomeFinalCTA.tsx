@@ -17,7 +17,7 @@ export function HomeFinalCTA() {
     <section data-home-final-cta-section className="section-dark py-16 md:py-24 lg:py-32">
       <div className="container-content text-center">
         <MotionSection>
-          <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+          <p className="text-sm font-medium tracking-[0.2em] text-secondary uppercase">
             Next Steps
           </p>
           <h2 className="mt-4 text-4xl md:text-5xl">Ready to Build What&apos;s Next?</h2>
@@ -50,7 +50,7 @@ export function HomeFinalCTA() {
               href={telHref(company.phones[0])}
               event="phone_click"
               eventProps={{ source: "homepage_final_cta" }}
-              className="text-off-white/70 hover:text-primary"
+              className="text-off-white/70 hover:text-secondary"
             >
               {company.phones[0]}
             </TrackedAnchor>

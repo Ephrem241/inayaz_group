@@ -1,7 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import { MotionSection } from "@/components/motion/MotionSection";
 import { MaskRevealImage } from "@/components/motion/MaskRevealImage";
+import { RevealImage } from "@/components/motion/RevealImage";
+import { ParallaxImage } from "@/components/motion/ParallaxImage";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { SUSTAINABILITY_TOPICS } from "@/constants/sustainability";
 import { cn } from "@/lib/utils/cn";
@@ -85,15 +86,14 @@ export function Sustainability({
               alt="Construction worker in a yellow hard hat handling rebar and formwork inside an unfinished concrete-frame building"
               aspectRatio="4 / 5"
             />
-            <MotionSection y={16} delay={0.1} className="relative mt-6 aspect-[16/9] overflow-hidden">
-              <Image
+            <RevealImage delay={0.1} className="mt-6">
+              <ParallaxImage
                 src="/images/sustainability/placeholder-sustainability-material-texture.jpg"
                 alt="Extreme close-up of a natural, weathered stone surface with a network of cracks"
-                fill
+                aspectRatio="16 / 9"
                 sizes="(min-width: 1024px) 40vw, 100vw"
-                className="object-cover"
               />
-            </MotionSection>
+            </RevealImage>
           </div>
         </div>
       </div>

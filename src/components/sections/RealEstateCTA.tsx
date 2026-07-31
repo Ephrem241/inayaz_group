@@ -6,7 +6,7 @@ export function RealEstateCTA() {
     <section data-real-estate-cta-section className="section-dark py-16 md:py-24 lg:py-32">
       <div className="container-content text-center">
         <MotionSection>
-          <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+          <p className="text-sm font-medium tracking-[0.2em] text-secondary uppercase">
             Interested in a Development?
           </p>
           <h2 className="mt-4 text-4xl md:text-5xl">Schedule a Property Visit</h2>

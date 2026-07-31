@@ -17,7 +17,7 @@ export function RecognitionAndTrust({ recognitions }: RecognitionAndTrustProps) 
     <section className="section-dark py-16 md:py-24 lg:py-32">
       <div className="container-wide">
         <MotionSection>
-          <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+          <p className="text-sm font-medium tracking-[0.2em] text-secondary uppercase">
             {isNeutral ? "Credentials" : "Recognition & Trust"}
           </p>
           <h2 className="mt-4 text-4xl md:text-5xl">
@@ -34,7 +34,7 @@ export function RecognitionAndTrust({ recognitions }: RecognitionAndTrustProps) 
                     <Image src={item.logo.src} alt={item.logo.alt} fill sizes="128px" className="object-contain object-left" />
                   </div>
                 )}
-                <span className="text-sm font-medium tracking-[0.2em] text-primary uppercase">
+                <span className="text-sm font-medium tracking-[0.2em] text-secondary uppercase">
                   {item.eyebrow}
                 </span>
                 <p className="mt-3 text-2xl font-semibold tracking-tight text-off-white">

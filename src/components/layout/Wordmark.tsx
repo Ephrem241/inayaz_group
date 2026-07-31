@@ -33,8 +33,16 @@ export function Wordmark({ className }: { className?: string }) {
     >
       <LogoIcon />
       <span>
-        <span className="block text-lg font-semibold">INAYAZ</span>
-        <span className="block text-[0.6rem] font-medium tracking-[0.35em] text-muted-foreground uppercase">
+        {/* Brand wordmark text — exempt from WCAG SC 1.4.3's numeric
+            contrast requirement (logos/brand names are explicitly excluded
+            from the Contrast (Minimum) success criterion). Measured
+            contrast of #B22222 against this header/footer's dark
+            backgrounds is ~2.1–2.5:1, well under 4.5:1 — deliberately
+            invoked here, not an oversight; see globals.css's comment above
+            .section-dark for why no accessible-on-dark red variant exists.
+            Do not copy this pattern for any non-logo text. */}
+        <span className="block text-lg font-semibold text-brand-red">INAYAZ</span>
+        <span className="block text-[0.6rem] font-medium tracking-[0.35em] text-off-white uppercase">
           Group
         </span>
       </span>
